@@ -15,10 +15,20 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
+  picture: String,
   facebook: {},
   twitter: {},
   google: {},
-  github: {}
+  github: {},
+  miles: {
+    type: Number,
+    default: 0
+  },
+  description: String,
+  rating: {
+    type: Number,
+    default: 0
+  }
 });
 
 /**

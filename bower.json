@@ -12,8 +12,7 @@
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-ui-router": "~0.2.10",
-    "angular-material": "~0.8.3",
-    "angular-hide-header": "~1.0.0"
+    "angular-material": "~0.8.3"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
