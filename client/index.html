@@ -689,67 +689,6 @@
       overflow-x: auto;
     }
 
-    table {
-      margin: 0 0 2.25em 0;
-      width: 100%;
-    }
-
-    table tbody tr {
-      border: solid 2px #f4f4f4;
-      border-left: 0;
-      border-right: 0;
-    }
-
-    table tbody tr:nth-child(2n + 1) {
-      background-color: #fafafa;
-    }
-
-    table td {
-      padding: 0.75em 0.75em;
-    }
-
-    table th {
-      color: #777;
-      font-size: 0.9em;
-      font-weight: 700;
-      padding: 0 0.75em 0.75em 0.75em;
-      text-align: left;
-    }
-
-    table thead {
-      border-bottom: solid 4px #e4e4e4;
-    }
-
-    table tfoot {
-      border-top: solid 4px #e4e4e4;
-    }
-
-    table.alt {
-      border-collapse: separate;
-    }
-
-    table.alt tbody tr td {
-      border: solid 2px #e4e4e4;
-      border-left-width: 0;
-      border-top-width: 0;
-    }
-
-    table.alt tbody tr td:first-child {
-      border-left-width: 2px;
-    }
-
-    table.alt tbody tr:first-child td {
-      border-top-width: 2px;
-    }
-
-    table.alt thead {
-      border-bottom: 0;
-    }
-
-    table.alt tfoot {
-      border-top: 0;
-    }
-
     /* Button */
 
     input[type="submit"],
@@ -1067,9 +1006,9 @@
       background-position: top right;
       background-repeat: no-repeat;
       background-size: cover;
-      content: '';
-      display: block;
-      height: 15em;
+      //content: '';
+      //display: block;
+      //height: 15em;
       width: 100%;
     }
 
@@ -1144,6 +1083,17 @@
   #main > section > .container {
     padding: 4em 0 2em 0;
   }
+  
+  /* Custom */
+  
+  #main{
+	padding-left: 20px;
+	padding-right: 20px;
+  }
+  
+  .description p{
+	margin-bottom: 15px;
+  }
 </style>
 
 <body cz-shortcut-listen="true" style=""><div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
@@ -1160,22 +1110,32 @@
         <div class="container">
           <header class="major">
             <h2>Introduction</h2>
-            <p>This is a subtitle for this main section</p>
+            <p>What is MongoDB?</p>
           </header>
-          <p>Faucibus sed lobortis aliquam lorem blandit. Lorem eu nunc metus col. Commodo id in arcu ante lorem ipsum sed accumsan erat praesent faucibus commodo ac mi lacus. Adipiscing mi ac commodo. Vis aliquet tortor ultricies non ante erat nunc integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita culpa qui similique sed labore laudantium, aliquam atque odio ex rem, dicta saepe molestias veniam explicabo asperiores nisi nesciunt consectetur eligendi.</p>
+		  <div class="description">
+			<ul>
+				<li>
+					MongoDB is a non-relational data store for JSON documents
+				</li>
+				<li>
+					Relational database stores data in tables, MongoDB stores data as JSON documents <!-- document oriented -->
+							  <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">
+</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">var</span> myjson <span style="color: #333333">=</span> {
+  <span style="background-color: #fff0f0">&#39;a&#39;</span> <span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;1&#39;</span>,
+  <span style="background-color: #fff0f0">&#39;b&#39;</span> <span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;2&#39;</span>
+}
+</pre></td></tr></table></div>
 
-
-
-          <!-- HTML generated using hilite.me -->
-          <div style="background: #202020; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #6ab825; font-weight: bold">var</span> <span style="color: #d0d0d0">test</span> <span style="color: #d0d0d0">=</span> <span style="color: #6ab825; font-weight: bold">function</span><span style="color: #d0d0d0">(param)</span> <span style="color: #d0d0d0">{</span>
-            <span style="color: #d0d0d0">console.log(</span><span style="color: #ed9d13">'the param is: '</span> <span style="color: #d0d0d0">+</span> <span style="color: #d0d0d0">param);</span>
-            <span style="color: #d0d0d0">}</span>
-          </pre></div>
-          <div class="ac-caption">Code formated by http://hilite.me/</div>
-
-
-
+				</li>
+				
+				<li>
+					Schemaless <!-- Two documents can have different structures in same collection -->
+				</li>	
+			</ul>
+			<p>
+			<p></p>
+			<p>Relational database stores data in tables, MongoDB stores data as JSON documents</p>
+		  </div>
 
 
 
