@@ -325,17 +325,9 @@
 
     input[type="checkbox"],
     input[type="radio"] {
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      -o-appearance: none;
-      -ms-appearance: none;
-      appearance: none;
-      display: block;
-      float: left;
-      margin-right: -2em;
-      opacity: 0;
       width: 1em;
-      z-index: -1;
+	  margin-right: 10px;
+	  margin-left: 10px;
     }
 
     input[type="checkbox"] + label,
@@ -992,7 +984,7 @@
     }
 
     #main > section > .container {
-      padding: 6em 0 4em 0;
+      padding: 0 0 4em 0;
     }
 
     #main > section:first-child {
@@ -1001,7 +993,7 @@
 
     /* One */
 
-    #one:before {
+    #intro:before {
       background-image: url("../images/banner.jpg");
       background-position: top right;
       background-repeat: no-repeat;
@@ -1081,7 +1073,7 @@
   /* Main */
 
   #main > section > .container {
-    padding: 4em 0 2em 0;
+    padding: 0 0 2em 0;
   }
   
   /* Custom */
@@ -1094,6 +1086,17 @@
   .description p{
 	margin-bottom: 15px;
   }
+  
+  .checkbox-group{
+	 border-left: 1px solid #ddd;
+	 margin-left: 30px;
+	 padding-right: 10px;
+  }
+  
+  fieldset + fieldset{
+	margin-top: 25px;
+  }
+  
 </style>
 
 <body cz-shortcut-listen="true" style=""><div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
@@ -1106,14 +1109,25 @@
     <div id="main">
 
       <!-- One -->
-      <section id="one">
+      <section id="intro">
+	  <header class="major">
+            <h2>Introduction</h2>
+            
+          </header>
         <div class="container">
           <header class="major">
-            <h2>Introduction</h2>
+          
             <p>What is MongoDB?</p>
           </header>
 		  <div class="description">
 			<ul>
+			
+				<li>
+					First developed by the software company 10gen (now MongoDB Inc.) in October 2007, shifted to an open source development model in 2009 
+				</li>
+				<li>
+					Written in C++
+				</li>
 				<li>
 					MongoDB (from humongous) is a cross-platform document-oriented database
 				</li>
@@ -1121,8 +1135,9 @@
 					Relational database stores data in tables, MongoDB stores data as JSON documents <!-- document oriented -->
 				</li>
 			</ul>
-		  </div>
-		  <br/>
+		  </div>		  
+        </div>
+		<div class="container">
 		  <header class="major">
             <p>Why MongoDB?</p>
           </header>
@@ -1140,24 +1155,142 @@
 			</ul>
 		  </div>
         </div>
+		<div class="container">
+		  <header class="major">
+            <p>How Install MongoDB?(Windows)</p>
+          </header>
+		  <div class="description">
+			<ul>
+				<li>
+					https://www.mongodb.org/downloads
+				</li>
+				<li>
+					https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
+				</li>				
+				<li>
+					Execute Installer
+				</li>
+				<li>
+					Create Default DB Path - "C:/Data/db" 
+				</li>
+			</ul>
+		  </div>
+        </div>
+		<div class="container">
+		  <header class="major">
+            <p>How Install MongoDB?(Mac)</p>
+          </header>
+		  
+        </div>
       </section>
 
       <!-- Two -->
-      <section id="two">
+      <section id="quizes_intro">
+	     <header class="major">
+            <h2>Quizes</h2>
+          </header>
+        <div class="container">
+       
+          <fieldset>
+			<h3>Which of the following statements are true about MongoDB?</h3>
+			<div class="checkbox-group">
+				<input type="checkbox" name="1" value="1">MongoDB supports Joins.</input><br/>
+				<input type="checkbox" name="2" value="2">MongoDB is schemaless.</input><br/>
+				<input type="checkbox" name="3" value="3">MongoDB supports SQL.</input><br/>
+				<input type="checkbox" name="4" value="4">MongoDB is document oriented.</input><br/>
+			</div>
+		  </fieldset>
+		  <fieldset>
+			<h3>Which features did MongoDB omit in order to retain scalability?</h3>
+			<div class="checkbox-group">
+				<input type="checkbox" name="1" value="1">Secondary Indexes</input><br/>
+				<input type="checkbox" name="2" value="2">Transactions across multiple collections</input><br/>
+				<input type="checkbox" name="3" value="3">Indexes</input><br/>
+				<input type="checkbox" name="4" value="4">Joins</input><br/>
+			</div>
+		  </fieldset>
+		  <fieldset>
+			<h3>Which of the following expressions are valid JSON documents for MongoDB?</h3>
+			<div class="checkbox-group">
+				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
+				<input type="checkbox" name="2" value="2">{ a,1; b, 4, c, 6}</input><br/>
+				<input type="checkbox" name="3" value="3">{ a : 1; b : 1; c : 4 }</input><br/>
+				<input type="checkbox" name="4" value="4">( A, 1; b : 2; c, 4 }</input><br/>
+			</div>
+		  </fieldset>
+		  <fieldset>
+			<h3>Which of the following are JSON documents that the MongoDB shell will accept?</h3>
+			<div class="checkbox-group">
+				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
+				<input type="checkbox" name="2" value="2">{ a : 1, b : 2, c : [ 1, 2, 3, 4, 5 ] }</input><br/>
+				<input type="checkbox" name="3" value="3">{ a : 1, b : { }, c : [ { a : 1, b : 2 }, 5, 6 ] }</input><br/>
+				<input type="checkbox" name="4" value="4">{}</input><br/>
+			</div>
+		  </fieldset>
+		  <fieldset>
+			<h3>In which scenario is it impossible to embed data within a document (you must put the data in it a separate collection)?</h3>
+			<div class="checkbox-group">
+				<input type="radio" name="test1_intro" value="1">The embedded data could exceed the 16MB document limit within MongoDB.</input><br/>
+				<input type="radio" name="test1_intro" value="2">The data would be duplicated across multiple objects within a collection.</input><br/>
+				<input type="radio" name="test1_intro" value="3">You need an index on the data element.</input><br/>
+				<input type="radio" name="test1_intro" value="4">The data is not isomorphic.</input><br/>
+			</div>
+		  </fieldset>        
+        </div>
+      </section>
+	  
+	   <section id="homework_intro">
+	   <header class="major">
+            <h2>Homework</h2>
+			
+          </header>
         <div class="container">
           <header class="major">
-            <h2>Language Basics</h2>
-            <p>This is a subtitle for this main section</p>
+            <p>Homework 1.1</p>
           </header>
-          <p>Faucibus sed lobortis aliquam lorem blandit. Lorem eu nunc metus col. Commodo id in arcu ante lorem ipsum sed accumsan erat praesent faucibus commodo ac mi lacus. Adipiscing mi ac commodo. Vis aliquet tortor ultricies non ante erat nunc integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita culpa qui similique sed labore laudantium, aliquam atque odio ex rem, dicta saepe molestias veniam explicabo asperiores nisi nesciunt consectetur eligendi.</p>
+          <fieldset>
+			<div>Use mongorestore to restore the dump into your running mongod. 
+			Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. 
+			<br/>
+			Now type:</div><br/>
+				<code>mongorestore dump</code>
+			<br/><br/>
+			<div>
+				Note you will need to have your path setup correctly to find mongorestore.
 
-          <header>
-            <h4>Heading with a Subtitle</h4>
-            <p>This is a subtitle for this sub session</p>
+				Now, using the Mongo shell, perform a findOne on the collection called hw1_1 in the database m101. <br/>
+				That will return one document.
+				Please provide the value corresponding to the "answer" key (without the surrounding quotes) from the document returned.
+			</div>
+		  </fieldset>
+		   <header class="major">
+            <p>Homework 1.2</p>
           </header>
-          <p>Faucibus sed lobortis aliquam lorem blandit. Lorem eu nunc metus col. Commodo id in arcu ante lorem ipsum sed accumsan erat praesent faucibus commodo ac mi lacus. Adipiscing mi ac commodo. Vis aliquet tortor ultricies non ante erat nunc integer eu ante ornare amet commetus vestibulum blandit integer in curae ac faucibus integer non. Adipiscing cubilia elementum.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita culpa qui similique sed labore laudantium, aliquam atque odio ex rem, dicta saepe molestias veniam explicabo asperiores nisi nesciunt consectetur eligendi.</p>
+          <fieldset>
+			<div>Your assignment for this part of the homework is to install the mongodb driver for Node.js and run the test application.
+			<br/>
+			Use mongorestore to restore the dump into your running mongod. Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. Now type:
+			<br/>		
+			Now type:
+			</div>
+			<br/>
+				<code>mongorestore dump</code>
+			<br/>
+			<br/>
+			<div>
+				Note you will need to have your path setup correctly to find mongorestore. Then install the mongodb driver:
+				<br/><br/>
+	<code>npm install mongodb</code>
+	<br/>
+			<br/>
+			This should create a "node_modules" directory. Now run the application to get the answer to hw1-2:
+				<br/>
+	<br/><code>node app.js</code><br/>
+	<br/>
+			If you have the mongodb driver installed correctly, this will print out the message 'Answer: ' followed by some additional text. Please provide the obtained text.
+			</div>
+		  </fieldset>
+		      
         </div>
       </section>
 
@@ -1561,8 +1694,8 @@
   </header>
   <nav id="nav">
     <ul>
-      <li><a href="#one" class="active" id="one-link">Introduction</a></li>
-      <li><a href="#two" id="two-link">Language basics</a></li>
+      <li><a href="#intro" class="active" id="one-link">Introduction</a></li>
+      
       <li><a href="#three" id="three-link">Advanced topics</a></li>
       <li><a href="#four" id="four-link">Lab</a></li>
       <li><a href="#five" id="five-link">Template tutorial</a></li>
