@@ -1097,6 +1097,10 @@
 	margin-top: 25px;
   }
   
+  fieldset{
+	margin-bottom: 25px;
+  }
+  
 </style>
 
 <body cz-shortcut-listen="true" style=""><div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
@@ -1246,7 +1250,7 @@
           </header>
         <div class="container">
           <header class="major">
-            <p>Homework 1.1</p>
+            <h3>Homework 1.1</h3>
           </header>
           <fieldset>
 			<div>Use mongorestore to restore the dump into your running mongod. 
@@ -1256,7 +1260,6 @@
 				<code>mongorestore dump</code>
 			<br/><br/>
 			<div>
-				Note you will need to have your path setup correctly to find mongorestore.
 
 				Now, using the Mongo shell, perform a findOne on the collection called hw1_1 in the database m101. <br/>
 				That will return one document.
@@ -1264,7 +1267,7 @@
 			</div>
 		  </fieldset>
 		   <header class="major">
-            <p>Homework 1.2</p>
+            <h3>Homework 1.2</h3>
           </header>
           <fieldset>
 			<div>Your assignment for this part of the homework is to install the mongodb driver for Node.js and run the test application.
@@ -1277,17 +1280,36 @@
 				<code>mongorestore dump</code>
 			<br/>
 			<br/>
-			<div>
-				Note you will need to have your path setup correctly to find mongorestore. Then install the mongodb driver:
-				<br/><br/>
-	<code>npm install mongodb</code>
-	<br/>
-			<br/>
+			<div>Then install the mongodb driver:	<br/><br/>	<code>npm install mongodb</code>	<br/>			<br/>
 			This should create a "node_modules" directory. Now run the application to get the answer to hw1-2:
 				<br/>
 	<br/><code>node app.js</code><br/>
 	<br/>
 			If you have the mongodb driver installed correctly, this will print out the message 'Answer: ' followed by some additional text. Please provide the obtained text.
+			</div>
+		  </fieldset>
+		    <header class="major">
+            <h3>Homework 1.3</h3>
+          </header>
+          <fieldset>
+			<div>Your assignment for this part of the homework is to install the mongodb driver for Node.js, Express, and other required dependencies and run the test application. This homework is meant to give you practice using the "package.json" file, which will include some of the code that we provide.
+			
+			Use mongorestore to restore the dump into your running mongod. Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. 
+			
+			<br/>
+			Now type:</div><br/>
+				<code>mongorestore dump</code>
+			<br/><br/>
+			<div>
+				Then install all the dependencies listed in the 'package.json' file. Calling 'npm install' with no specific package tells npm to look for 'package.json':
+				<br/><br/>
+				<code>npm install</code>
+			<br/><br/>
+			This should create a "node_modules" directory with all the dependencies. Now run the application to get the answer:
+				<br/><br/>
+				<code>node app.js</code>
+			<br/><br/>
+			 This will print the message 'Express server started on port 8080'. Navigate to 'localhost:8080' in a browser and check the text that is displayed on that page.
 			</div>
 		  </fieldset>
 		      
