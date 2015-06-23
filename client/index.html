@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <base href="/">
-  <title></title>
+  <title>Avenue Code University: MongoDB/Mongoose</title>
   <meta name="description" content="ShareMiles">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -46,7 +46,7 @@
       font-weight: 400;
       line-height: 1.75em;
     }
-
+	
     a {
       -moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
       -webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
@@ -149,8 +149,9 @@
       color: #fff;
       font-family: "Source Code Pro", monospace;
       font-size: 0.9em;
-      margin: 0 0.25em;
+      margin: 25px 0.25em;
       padding: 0.25em 0.65em;
+	  display: block;
     }
 
     pre {
@@ -220,7 +221,8 @@
       color: #777;
       font-size: 1.75em;
       font-weight: 700;
-      margin-top: -0.75em;
+      margin-top: 0;
+	  margin-bottom: 0;
     }
 
     /* Form */
@@ -529,7 +531,7 @@
     }
 
     ul li {
-      padding-left: 0.5em;
+      padding: 0.5em;
     }
 
     ul.alt {
@@ -1078,10 +1080,6 @@
   
   /* Custom */
   
-  #main{
-	padding-left: 20px;
-	padding-right: 20px;
-  }
   
   .description p{
 	margin-bottom: 15px;
@@ -1103,6 +1101,8 @@
   
   section{
 	min-height: 1250px;
+	  padding-left: 20px;
+  padding-right: 20px;
   }
   
   .description-concept{
@@ -1111,20 +1111,25 @@
 	font-variant: small-caps;  
   }
   
+  .description img{
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+  }
+  
 </style>
 
-<body cz-shortcut-listen="true" style=""><div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
-  <div id="wrapper">
+<body cz-shortcut-listen="true" style="">
+  <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+	<div id="wrapper">
 
     <!-- Header -->
 
 
-    <!-- Main -->
     <div id="main">
 
-      <!-- One -->
       <section id="intro">
-	  <header class="major">
+	    <header class="major">
             <h2>Introduction</h2>
             
           </header>
@@ -1146,7 +1151,7 @@
 					MongoDB (from humongous) is a cross-platform document-oriented database
 				</li>
 				<li>
-					Relational database stores data in tables, MongoDB stores data as JSON documents <!-- document oriented -->
+					Relational database stores data in tables, MongoDB stores data as documents, which are JSON-like field and value pairs <!-- document oriented -->
 				</li>
 			</ul>
 		  </div>		  
@@ -1172,8 +1177,8 @@
 		
       </section>
 	  
-	   <section id="install">
-	     <header class="major">
+	  <section id="install">
+	    <header class="major">
             <h2>Installation</h2>
           </header>
         <div class="container">
@@ -1205,58 +1210,101 @@
         </div>
       </section>
 	  
-	   <section id="basic">
-	     <header class="major">
-            <h2>Basics</h2>
-          </header>
-     	 <header class="major">
-            <p>Concepts</p>
-          </header>
+	  <section id="basicconcepts">
+	    <header class="major">
+          <h2>Basics Concepts</h2>
+        </header>
+		<div class="container">
 		  <div class="description">
 			<ul>
 				<li>
 					Mongo shell is an interactive Javascript interpreter - you can execute JS fragments!
+					<code> > print('MongoDB shell' + ' is an interactive Javascript interpreter'); <br/>MongoDB shell is an interactive Javascript interpreter</code>
+					<code> > for(i =0; i < 3; i ++) {print(i)}; <br/>0 <br/>1<br/>2</code>
 				</li>
 				<li>
-					Uses BSON - Binary Javascript Object Notation. BSON extends the JSON model to provide additional data types and to be efficient for encoding and decoding within different languages.
+					MongoDB uses BSON - Binary Javascript Object Notation. BSON extends the JSON model to provide additional data types and to be efficient for encoding and decoding within different languages.
+					<img src="/assets/img/mongopresentation/document_fields.png" alt="">
 				</li>
 				<li>
-					Collection and Documents
+					MongoDB stores all documents in collections. <br/>
+					<img src="/assets/img/mongopresentation/collection_documents.png" alt="">
 				</li>
 				<li>
-				 <div class="description description-concept">
-					Create - Insert / Read - Find
-					/
-					Update - Update
-					/
-					Delete - Remove			
-				  </div>
+					Documents - Max size: 16Mb
 				</li>
+				
 			</ul>
 		  </div>
-		  <div class="container">
+        </div>
+	  </section>
+	  
+	  <section id="querystructure">
+	    <header class="major">
+          <h2>Database Operations</h2>
+        </header>
+		<div class="container">
+		  <div class="description">		    
 			<header class="major">
-				<p>Operations</p>
+				<p> Query</p>
+			  <div>In MongoDB a query targets a specific collection of documents. Queries specify criteria, or conditions, that identify the documents that MongoDB returns to the clients. 
+	Query may include a projection that specifies the fields from the matching documents to return. You can optionally modify queries to impose limits, skips, and sort orders.</div>
+            </header>
+			<ul>
+				<li>
+					Query using Modifier
+					<img src="/assets/img/mongopresentation/find_structure.png" alt="">
+				</li>
+				<li>
+					Query using Projection
+					<img src="/assets/img/mongopresentation/find_structure_projection.png" alt="">
+				</li>
+				
+			</ul>
+		  </div>
+		  
+		  <div class="description">		    
+			<header class="major">
+					<p>Data Modification</p>
+			  <div>Data modification refers to operations that create, update, or delete data. In MongoDB, these operations modify the data of a single collection. For the update and delete operations, you can specify the criteria to select the documents to update or remove.</div>
 			</header>
-			<div class="description">
-				<ul>
-					<li>
-						findOne
-					</li>
-					<li>
-						find
-					</li>
-					<li>
-						
-					</li>
-				</ul>
-			  </div>
+					<img src="/assets/img/mongopresentation/crud-insert-stages.png" alt="">
+		  </div>
+		  
+        </div>
+	  
+	  </section>
+	  
+	  <section id="operations">
+	    <header class="major">
+          <h2>Operations</h2>
+        </header>
+		<div class="container">
+		  <div class="description">
+			<ul>
+				<li>
+					create - insert
+					<code>db.users.insert({ 'name': 'henrique', 'email': 'helias@avenuecode.com'})</code>
+				</li>
+				<li>
+					read - find <code>db.users.find({ 'name': 'henrique'}) </code>
+				</li>
+				<li>
+					read - findOne <code>db.users.findOne({ 'name': 'henrique'})</code>
+				</li>
+				<li>
+					update - update <code>db.users.update({ 'name': 'henrique'}, { 'name': 'henrique', 'email': 'newemail@avenuecode.com'})</code>
+				</li>
+				<li>
+					delete - remove <code>db.users.remove({ 'name': 'henrique'})</code>
+				</li>					
+			</ul>
 		  </div>
         </div>
-		
-      </section>
-
-      <!-- Two -->
+	  </section>
+	
+	  
+	
       <section id="quizes_intro">
 	     <header class="major">
             <h2>Quizes</h2>
@@ -1311,11 +1359,10 @@
         </div>
       </section>
 	  
-	   <section id="homework_intro">
-	   <header class="major">
-            <h2>Homework</h2>
-			
-          </header>
+	  <section id="homework_intro">
+	    <header class="major">
+          <h2>Homework</h2>
+        </header>
         <div class="container">
           <header class="major">
             <h3>Homework 1.1</h3>
@@ -1324,9 +1371,9 @@
 			<div>Use mongorestore to restore the dump into your running mongod. 
 			Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. 
 			<br/>
-			Now type:</div><br/>
+			Now type:</div>
 				<code>mongorestore dump</code>
-			<br/><br/>
+			
 			<div>
 
 				Now, using the Mongo shell, perform a findOne on the collection called hw1_1 in the database m101. <br/>
@@ -1344,15 +1391,11 @@
 			<br/>		
 			Now type:
 			</div>
-			<br/>
+			
 				<code>mongorestore dump</code>
-			<br/>
-			<br/>
-			<div>Then install the mongodb driver:	<br/><br/>	<code>npm install mongodb</code>	<br/>			<br/>
+			<div>Then install the mongodb driver:	<code>npm install mongodb</code>
 			This should create a "node_modules" directory. Now run the application to get the answer to hw1-2:
-				<br/>
-	<br/><code>node app.js</code><br/>
-	<br/>
+		<code>node app.js</code>
 			If you have the mongodb driver installed correctly, this will print out the message 'Answer: ' followed by some additional text. Please provide the obtained text.
 			</div>
 		  </fieldset>
@@ -1365,18 +1408,15 @@
 			Use mongorestore to restore the dump into your running mongod. Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. 
 			
 			<br/>
-			Now type:</div><br/>
+			Now type:</div>
 				<code>mongorestore dump</code>
-			<br/><br/>
 			<div>
 				Then install all the dependencies listed in the 'package.json' file. Calling 'npm install' with no specific package tells npm to look for 'package.json':
-				<br/><br/>
+				
 				<code>npm install</code>
-			<br/><br/>
+			
 			This should create a "node_modules" directory with all the dependencies. Now run the application to get the answer:
-				<br/><br/>
 				<code>node app.js</code>
-			<br/><br/>
 			 This will print the message 'Express server started on port 8080'. Navigate to 'localhost:8080' in a browser and check the text that is displayed on that page.
 			</div>
 		  </fieldset>
@@ -1384,45 +1424,37 @@
         </div>
       </section>
 
-
-      </div>
-
-      <!-- Footer -->
-      <section id="footer">
-        <div class="container">
-          <ul class="copyright">
-            <li>© Avenue Code. All rights reserved.</li>
-          </ul>
-        </div>
-      </section>
-
     </div>
 
-  </div><div id="skel-layers-hiddenWrapper" style="height: 100%;"></div><div id="skel-layers-visibleWrapper" style="position: relative;"><section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
-  <header>
+    <section id="footer">
+      <div class="container">
+        <ul class="copyright">
+          <li>© Avenue Code. All rights reserved.</li>
+        </ul>
+      </div>
+    </section>
 
-    <h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
-
-  </header>
-  <nav id="nav">
-    <ul>
-      <li><a href="#intro" class="active" id="intro-link">Introduction</a></li>
-	  <li><a href="#install"  id="install-link">Installation</a></li>
-	  <li><a href="#basic"  id="install-link">Basics</a></li>
-      
-    </ul>
-    <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
-  </nav>
-  <footer>
-            <!-- <ul class="icons">
-              <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-              <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-              <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-              <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-              <li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
-            </ul> -->
-          </footer>
-        </section></div><div id="window-resizer-tooltip"><a href="#" title="Edit settings"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth"></span> x <span class="tooltipHeight" id="winHeight"></span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth"></span> x <span class="tooltipHeight" id="vpHeight"></span></div></body>
+   </div>
+  </div>
+  <div id="skel-layers-hiddenWrapper" style="height: 100%;"></div>
+  <div id="skel-layers-visibleWrapper" style="position: relative;">
+    <section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+	<header>
+		<h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
+	</header>
+	<nav id="nav">
+	  <ul>
+          <li><a href="#intro" class="active" id="intro-link">Introduction</a></li>
+		  <li><a href="#install"  id="install-link">Installation</a></li>
+		  <li><a href="#basicconcepts"  id="basicconcepts-link">Basic Concepts</a></li>		  		  
+		  <li><a href="#querystructure"  id="querystructure-link">Database Operations</a></li>
+		  <li><a href="#operations"  id="operations-link">Operations</a></li>
+		</ul>
+      <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
+    </nav>
+  </section>
+  </div>
+</body>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
