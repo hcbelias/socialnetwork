@@ -1426,24 +1426,24 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 			<h3>Q1.1 - Which of the following statements are true about MongoDB?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">MongoDB supports Joins.</input><br/>
-				<input type="checkbox" name="2" value="2">MongoDB is schemaless.</input><br/>
+				<input type="checkbox" name="2" value="2">MongoDB is schemaless.</input><br/><!--X-->
 				<input type="checkbox" name="3" value="3">MongoDB supports SQL.</input><br/>
-				<input type="checkbox" name="4" value="4">MongoDB is document oriented.</input><br/>
+				<input type="checkbox" name="4" value="4">MongoDB is document oriented.</input><br/><!--X-->
 			</div>
 		  </fieldset>
 		  <fieldset>
 			<h3>Q1.2 - Which features did MongoDB omit in order to retain scalability?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">Secondary Indexes</input><br/>
-				<input type="checkbox" name="2" value="2">Transactions across multiple collections</input><br/>
+				<input type="checkbox" name="2" value="2">Transactions across multiple collections</input><br/><!--X-->
 				<input type="checkbox" name="3" value="3">Indexes</input><br/>
-				<input type="checkbox" name="4" value="4">Joins</input><br/>
+				<input type="checkbox" name="4" value="4">Joins</input><br/><!--X-->
 			</div>
 		  </fieldset>
 		  <fieldset>
 			<h3>Q1.3 - Which of the following expressions are valid JSON documents for MongoDB?</h3>
 			<div class="checkbox-group">
-				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
+				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/><!--X-->
 				<input type="checkbox" name="2" value="2">{ a,1; b, 4, c, 6}</input><br/>
 				<input type="checkbox" name="3" value="3">{ a : 1; b : 1; c : 4 }</input><br/>
 				<input type="checkbox" name="4" value="4">( A, 1; b : 2; c, 4 }</input><br/>
@@ -1452,21 +1452,32 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 		  <fieldset>
 			<h3>Q1.4 - Which of the following are JSON documents that the MongoDB shell will accept?</h3>
 			<div class="checkbox-group">
-				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
-				<input type="checkbox" name="2" value="2">{ a : 1, b : 2, c : [ 1, 2, 3, 4, 5 ] }</input><br/>
-				<input type="checkbox" name="3" value="3">{ a : 1, b : { }, c : [ { a : 1, b : 2 }, 5, 6 ] }</input><br/>
-				<input type="checkbox" name="4" value="4">{}</input><br/>
+				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/><!--X-->
+				<input type="checkbox" name="2" value="2">{ a : 1, b : 2, c : [ 1, 2, 3, 4, 5 ] }</input><br/><!--X-->
+				<input type="checkbox" name="3" value="3">{ a : 1, b : { }, c : [ { a : 1, b : 2 }, 5, 6 ] }</input><br/><!--X-->
+				<input type="checkbox" name="4" value="4">{}</input><br/><!--X-->
 			</div>
 		  </fieldset>
 		  <fieldset>
 			<h3>Q1.5 - In which scenario is it impossible to embed data within a document (you must put the data in it a separate collection)?</h3>
 			<div class="checkbox-group">
-				<input type="radio" name="test1_intro" value="1">The embedded data could exceed the 16MB document limit within MongoDB.</input><br/>
+				<input type="radio" name="test1_intro" value="1">The embedded data could exceed the 16MB document limit within MongoDB.</input><br/><!--X-->
 				<input type="radio" name="test1_intro" value="2">The data would be duplicated across multiple objects within a collection.</input><br/>
 				<input type="radio" name="test1_intro" value="3">You need an index on the data element.</input><br/>
 				<input type="radio" name="test1_intro" value="4">The data is not isomorphic.</input><br/>
 			</div>
-		  </fieldset>        
+		  </fieldset>    
+		  <fieldset>
+			<h3>Q1.6 - Which of the following are types available in BSON?</h3>
+			<div class="checkbox-group">
+				<input type="checkbox" name="1" value="1">Strings</input><br/><!--X-->
+				<input type="checkbox" name="2" value="2">Floating-point numbers</input><br/><!--X-->
+				<input type="checkbox" name="3" value="3">Complex numbers</input><br/>
+				<input type="checkbox" name="4" value="4">Arrays</input><br/><!--X-->
+				<input type="checkbox" name="5" value="5">Objects (Subdocuments)</input><br/><!--X-->
+				<input type="checkbox" name="6" value="6">Timestamps</input><br/><!--X-->
+			</div>
+		  </fieldset>    		  
         </div>
       </section>
 	   
@@ -1530,11 +1541,107 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 			 This will print the message 'Express server started on port 8080'. Navigate to 'localhost:8080' in a browser and check the text that is displayed on that page.
 			</div>
 		  </fieldset>
-		      
+		      <header class="major">
+            <h3>Homework 1.4</h3>
+          </header>
+          <fieldset>
+			<div>Your assignment for this part of the homework is to use the MongoDB shell to insert a new document.
+			Insert a document into the fruit collection with the attributes of "name" being "apple", "color" being "red", and "shape" being "round". Use the "insert" method.			
+			</div>
+		  </fieldset>
+		      <header class="major">
+            <h3>Homework 1.5</h3>
+          </header>
+          <fieldset>
+			<div>Use findOne on the collection fruit(that you've used on 1.4) to find one document where the color is "red", and retrieve only the fruit name and fruit shape.			
+			</div>
+          </fieldset>		      
         </div>
       </section>
 
     </div>
+	
+	
+	  
+	  <section id="queryfilter">
+	    <header class="major">
+          <h2>Query Filters</h2>
+        </header>
+		<div class="container">
+		   <header class="major">
+            <h3>Conditions</h3>
+          </header>
+		  <div class="description">		    			
+			<ul>
+				<li>
+					All Documents
+					<code>db.users.find({})</code>
+				</li>
+				<li>
+					Specify Equality Condition
+					<code>db.users.find( { name: 'henrique'} )</code>
+				</li>				
+				<li>
+					Specify AND Conditions
+					<code>db.users.find( { name: 'henrique', email: 'helias@avenuecode.com' } )</code>
+				</li>
+				
+				<li>
+					Specify OR Conditions
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}] })</code>
+				</li>
+				
+				<li>
+					Specify AND as well as OR Conditions
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}], age: 31 } )</code>
+				</li>
+				
+				
+			
+			</ul>
+		  </div>		  		  
+        </div>	 
+		<div class="container">
+		   <header class="major">
+            <h3>Embedded Documents</h3>			
+          </header>
+		  <div class="description">		
+<p>When the field holds an embedded document, a query can either specify an exact match on the embedded document or specify a match by individual fields in the embedded document using the dot notation.</p>		  
+			<ul>
+				<li>
+					All Documents
+					<code>db.users.find({})</code>
+				</li>
+				<li>
+					Specify Equality Condition
+					<code>db.users.find( { name: 'henrique'} )</code>
+				</li>
+				<!--<li>
+					Specify Conditions Using Query Operators
+					<code>db.users.find( { name: { $in: ['henrique', 'henriq2222' ]}} )</code>
+				</li>
+				-->
+				<li>
+					Specify AND Conditions
+					<code>db.users.find( { name: 'henrique', email: 'helias@avenuecode.com' } )</code>
+				</li>
+				
+				<li>
+					Specify OR Conditions
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}] })</code>
+				</li>
+				
+				<li>
+					Specify AND as well as OR Conditions
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}], age: 31 } )</code>
+				</li>
+				
+				
+			
+			</ul>
+		  </div>		  		  
+        </div>	 		
+	  </section>
 
     <section id="footer">
       <div class="container">
@@ -1561,8 +1668,9 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 		  <li><a href="#operations-insert"  id="operations-insert-link">Operations - Insert</a></li>
 		  <li><a href="#operations-find"  id="operations-find-link">Operations - Find</a></li>
 		  <li><a href="#node-driver"  id="node-driver-link">NodeJS Driver</a></li>
-		  <li><a href="#quiz1"  id="operations-find-link">Quiz</a></li>
-		  <li><a href="#homework1"  id="operations-find-link">Homework</a></li>
+		  <li><a href="#quiz1"  id="quiz-link">Quiz</a></li>
+		  <li><a href="#homework1"  id="hw1-link">Homework</a></li>
+		  <li><a href="#queryfilter"  id="query-filter-link">Query Filters</a></li>
 		</ul>
       <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
     </nav>
