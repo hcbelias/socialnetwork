@@ -1034,6 +1034,11 @@
       border-left: 0;
       margin-left: 0;
       padding-left: 0;
+	   margin-left: auto;
+  margin-right: auto;
+		display: block;
+		width: 250px;
+ 
     }
 
     #footer .copyright li a {
@@ -1239,6 +1244,9 @@
         </div>
 	  </section>
 	  
+	
+
+	  
 	  <section id="querystructure">
 	    <header class="major">
           <h2>Database Operations</h2>
@@ -1275,44 +1283,147 @@
 	  
 	  </section>
 	  
-	  <section id="operations">
+	  <section id="operations-insert">
 	    <header class="major">
           <h2>Operations</h2>
         </header>
 		<div class="container">
 		  <div class="description">
-			<ul>
-				<li>
-					create - insert
-					<code>db.users.insert({ 'name': 'henrique', 'email': 'helias@avenuecode.com'})</code>
-				</li>
-				<li>
-					read - find <code>db.users.find({ 'name': 'henrique'}) </code>
-				</li>
-				<li>
-					read - findOne <code>db.users.findOne({ 'name': 'henrique'})</code>
-				</li>
-				<li>
-					update - update <code>db.users.update({ 'name': 'henrique'}, { 'name': 'henrique', 'email': 'newemail@avenuecode.com'})</code>
-				</li>
-				<li>
-					delete - remove <code>db.users.remove({ 'name': 'henrique'})</code>
-				</li>					
-			</ul>
+		
+					INSERT
+					<p>One document</p>
+					<code>db.users.insert({ 'name': 'henrique', 'email': 'helias@avenuecode.com'});<br/>
+					WriteResult({ "nInserted" : 1 });</code>
+					<p>Multiple documents</p>
+					<code>db.users.insert([
+					<br/>&nbsp;&nbsp;	{ 'name': 'henrique', 'email': 'helias@avenuecode.com'}, 
+					<br/>	&nbsp;&nbsp;{ 'name': 'luiz', 'email': 'luiz@avenuecode.com', 'age': 31},
+					<br/>	&nbsp;&nbsp;{ '_id': 999, 'name': 'jose', 'email': 'jose@avenuecode.com', 'age': 30}
+					<br/>]);<br/>
+					BulkWriteResult({ <br/>
+   &nbsp;&nbsp;"writeErrors" : [ ],<br/>
+   &nbsp;&nbsp;"writeConcernErrors" : [ ],<br/>
+   &nbsp;&nbsp;"nInserted" : 3,<br/>
+   &nbsp;&nbsp;"nUpserted" : 0,<br/>
+   &nbsp;&nbsp;"nMatched" : 0,<br/>
+   &nbsp;&nbsp;"nModified" : 0,<br/>
+   &nbsp;&nbsp;"nRemoved" : 0,<br/>
+   &nbsp;&nbsp;"upserted" : [ ]<br/>
+});
+					</code>
+					<br/>
+					<p> If the collection does not exist, then the insert() method will create the collection.</p>
+					<p> If the document does not specify an _id field, then MongoDB will add the _id field and assign a unique ObjectId for the document before inserting. If the document contains an _id field, the _id value must be unique within the collection to avoid duplicate key error.</p>
+					
+			
 		  </div>
         </div>
 	  </section>
-	
+	   <section id="operations-find">
+	    <header class="major">
+          <h2>Operations</h2>
+        </header>
+		<div class="container">
+		  <div class="description">
+		
+					FIND
+					<p>All documents that matches</p>
+					<code>db.users.find({ 'name': 'henrique'});<br/>
+					{<br/>
+    &nbsp;&nbsp;    "_id" : ObjectId("559155eed4c1c99a6cea267a"),<br/>
+   &nbsp;&nbsp;     "name" : "henrique",<br/>
+    &nbsp;&nbsp;    "email" : "helias@avenuecode.com"<br/>
+}<br/>
+			{<br/>
+    &nbsp;&nbsp;    "_id" : ObjectId("5591565fd4c1c99a6cea267b"),<br/>
+   &nbsp;&nbsp;     "name" : "henrique",<br/>
+    &nbsp;&nbsp;    "email" : "helias@gmail.com"<br/>
+}<br/>
+</code>
+			FIND ONE
+					<p>First document that matches</p>
+						<code>db.users.findOne({ 'name': 'henrique'});<br/>
+					{<br/>
+    &nbsp;&nbsp;    "_id" : ObjectId("559155eed4c1c99a6cea267a"),<br/>
+   &nbsp;&nbsp;     "name" : "henrique",<br/>
+    &nbsp;&nbsp;    "email" : "helias@avenuecode.com"<br/>
+}
+</code><br/>
+<p>Also, db.collection.find() method returns a cursor:</p>
+<code>var myCursor = db.users.find( { name: 'henrique' } );<br/>
+while (myCursor.hasNext()) {<br/>
+   &nbsp;&nbsp;  printjson(myCursor.next());<br/>
+}<br/>
+<br/>
+{<br/>
+        &nbsp;&nbsp;"_id" : ObjectId("559166c9fdf6cb62ff65653e"),<br/>
+        &nbsp;&nbsp;"name" : "henrique",<br/>
+        &nbsp;&nbsp;"age" : 29<br/>
+}<br/>
+{<br/>
+        &nbsp;&nbsp;"_id" : ObjectId("559166cefdf6cb62ff65653f"),<br/>
+        &nbsp;&nbsp;"name" : "henrique",<br/>
+        &nbsp;&nbsp;"age" : 50<br/>
+}<br/>
+</code>
+		  </div>
+        </div>
+	  </section>
 	  
+	  
+	  <section id="node-driver">
+	    <header class="major">
+          <h2>NodeJS Driver</h2>
+        </header>
+		<div class="container">
+		  <div class="description">
+			<p> Usually uses the same syntax from MongoDB shell.</p><br/>			
+			
+			<div class="two-column-code">
+			 MongoDB
+				<code>
+				mongo mydatabase<br/>
+				db.users.find({ 'name' : 'henrique' });<br/>
+				<br/>
+
+				</code>
+				NodeJS
+			  		<code>
+				var MongoClient = require('mongodb').MongoClient;<br/>
+
+MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<br/>
+    if(err) throw err;<br/>
+
+    var query = { 'name' : 'henrique' };<br/>
+
+    var cursor = db.collection('users').find(query);<br/>
+
+    cursor.each(function(err, doc) {<br/>
+  &nbsp;&nbsp;      if(err) throw err;<br/>
+
+   &nbsp;&nbsp;     if(doc == null) {<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;        return db.close();<br/>
+   &nbsp;&nbsp;     }<br/>
+
+    &nbsp;&nbsp;    console.dir(doc.name);<br/>
+  &nbsp;&nbsp;  });<br/>
+});<br/>
+
+				</code>
+			</div>
+		  </div>
+        </div>
+	  </section>
+	    
 	
-      <section id="quizes_intro">
+      <section id="quiz1">
 	     <header class="major">
             <h2>Quizes</h2>
           </header>
         <div class="container">
        
           <fieldset>
-			<h3>Which of the following statements are true about MongoDB?</h3>
+			<h3>Q1.1 - Which of the following statements are true about MongoDB?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">MongoDB supports Joins.</input><br/>
 				<input type="checkbox" name="2" value="2">MongoDB is schemaless.</input><br/>
@@ -1321,7 +1432,7 @@
 			</div>
 		  </fieldset>
 		  <fieldset>
-			<h3>Which features did MongoDB omit in order to retain scalability?</h3>
+			<h3>Q1.2 - Which features did MongoDB omit in order to retain scalability?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">Secondary Indexes</input><br/>
 				<input type="checkbox" name="2" value="2">Transactions across multiple collections</input><br/>
@@ -1330,7 +1441,7 @@
 			</div>
 		  </fieldset>
 		  <fieldset>
-			<h3>Which of the following expressions are valid JSON documents for MongoDB?</h3>
+			<h3>Q1.3 - Which of the following expressions are valid JSON documents for MongoDB?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
 				<input type="checkbox" name="2" value="2">{ a,1; b, 4, c, 6}</input><br/>
@@ -1339,7 +1450,7 @@
 			</div>
 		  </fieldset>
 		  <fieldset>
-			<h3>Which of the following are JSON documents that the MongoDB shell will accept?</h3>
+			<h3>Q1.4 - Which of the following are JSON documents that the MongoDB shell will accept?</h3>
 			<div class="checkbox-group">
 				<input type="checkbox" name="1" value="1">{ a : 1, b : 2, c : 3 }</input><br/>
 				<input type="checkbox" name="2" value="2">{ a : 1, b : 2, c : [ 1, 2, 3, 4, 5 ] }</input><br/>
@@ -1348,7 +1459,7 @@
 			</div>
 		  </fieldset>
 		  <fieldset>
-			<h3>In which scenario is it impossible to embed data within a document (you must put the data in it a separate collection)?</h3>
+			<h3>Q1.5 - In which scenario is it impossible to embed data within a document (you must put the data in it a separate collection)?</h3>
 			<div class="checkbox-group">
 				<input type="radio" name="test1_intro" value="1">The embedded data could exceed the 16MB document limit within MongoDB.</input><br/>
 				<input type="radio" name="test1_intro" value="2">The data would be duplicated across multiple objects within a collection.</input><br/>
@@ -1358,8 +1469,8 @@
 		  </fieldset>        
         </div>
       </section>
-	  
-	  <section id="homework_intro">
+	   
+	  <section id="homework1">
 	    <header class="major">
           <h2>Homework</h2>
         </header>
@@ -1375,7 +1486,6 @@
 				<code>mongorestore dump</code>
 			
 			<div>
-
 				Now, using the Mongo shell, perform a findOne on the collection called hw1_1 in the database m101. <br/>
 				That will return one document.
 				Please provide the value corresponding to the "answer" key (without the surrounding quotes) from the document returned.
@@ -1448,7 +1558,11 @@
 		  <li><a href="#install"  id="install-link">Installation</a></li>
 		  <li><a href="#basicconcepts"  id="basicconcepts-link">Basic Concepts</a></li>		  		  
 		  <li><a href="#querystructure"  id="querystructure-link">Database Operations</a></li>
-		  <li><a href="#operations"  id="operations-link">Operations</a></li>
+		  <li><a href="#operations-insert"  id="operations-insert-link">Operations - Insert</a></li>
+		  <li><a href="#operations-find"  id="operations-find-link">Operations - Find</a></li>
+		  <li><a href="#node-driver"  id="node-driver-link">NodeJS Driver</a></li>
+		  <li><a href="#quiz1"  id="operations-find-link">Quiz</a></li>
+		  <li><a href="#homework1"  id="operations-find-link">Homework</a></li>
 		</ul>
       <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
     </nav>
