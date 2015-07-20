@@ -46,7 +46,7 @@
           </header>
 		  <div class="description">
 			<ul>
-			
+			<li>		MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling.</li>
 				<li>
 					First developed by the software company 10gen (now MongoDB Inc.) in October 2007, shifted to an open source development model in 2009 
 				</li>
@@ -55,6 +55,7 @@
 				</li>
 				<li>
 					MongoDB (from humongous) is a cross-platform document-oriented database
+
 				</li>
 				<li>
 					Relational database stores data in tables, MongoDB stores data as documents, which are JSON-like field and value pairs <!-- document oriented -->
@@ -88,14 +89,14 @@
 				</li>
 				<li>
 					<p>MongoDB provides horizontal scalability as part of its core functionality.<p/>
-<UL style="list-style-type: upper-roman">
+					<UL style="list-style-type: upper-roman">
 						<li>
-Automatic sharding distributes data across a cluster of machines.
-</li>
-<li>
-Replica sets can provide eventually-consistent reads for low-latency high throughput deployments.
-</li>
-</UL>
+						Automatic sharding distributes data across a cluster of machines.
+						</li>
+						<li>
+						Replica sets can provide eventually-consistent reads for low-latency high throughput deployments.
+						</li>
+					</UL>
 				</li>
 			</ul>
 		  </div>
@@ -176,9 +177,44 @@ Replica sets can provide eventually-consistent reads for low-latency high throug
               Create Default DB Path - "/data/db"
             </li>
           </ul>
+          
         </div> 
       </div>
     </section>
+    <section id="commands">
+	    <header class="major">
+          <h2>Commands</h2>
+          
+        </header>
+		<div class="container">
+		  <div class="description">
+		   <ul>
+            <li>              
+              mongod is the primary daemon process for the MongoDB system. It handles data requests, manages data access, and performs background management operations.
+            </li>
+
+            <li>              
+              mongo is an interactive JavaScript shell interface to MongoDB, which provides a powerful interface for systems administrators as well as a way for developers to test queries and operations directly with the database. mongo also provides a fully functional JavaScript environment for use with a MongoDB.
+            </li>
+
+
+            <li>              
+              The mongorestore program writes data from a binary database dump created by mongodump to a MongoDB instance. mongorestore can create a new database or add data to an existing database.
+
+            </li>
+
+
+            <li>              
+              The mongoimport tool imports content from an Extended JSON, CSV, or TSV export created by mongoexport, or potentially, another third-party export tool. 
+            </li>
+            <li> The mongostat utility provides a quick overview of the status of a currently running mongod or mongos instance. mongostat is functionally similar to the UNIX/Linux file system utility vmstat, but provides data regarding mongod and mongos instances.</li>
+            <li> mongotop provides a method to track the amount of time a MongoDB instance spends reading and writing data. mongotop provides statistics on a per-collection level. By default, mongotop returns values every second.</li>
+          </ul>
+
+	        
+        </div>
+	  </section>
+	  
 	  
 	  <section id="basicconcepts">
 	    <header class="major">
@@ -201,185 +237,21 @@ Replica sets can provide eventually-consistent reads for low-latency high throug
 					<img src="/assets/img/mongopresentation/collection_documents.png" alt="">
 				</li>
 				<li>
-					Documents - Max size: 16Mb
+					Documents within Embedded Documents- Max size: 16Mb
+				</li>
+
+				<li>
+					Dot Notation
+					<code>'embedded_document.field'</code>
 				</li>
 				
 			</ul>
 		  </div>
         </div>
 	  </section>
-	  
-	
 
-	  
-	  <section id="querystructure">
-	    <header class="major">
-          <h2>Database Operations</h2>
-        </header>
-		<div class="container">
-		  <div class="description">		    
-			<header class="major">
-				<p> Query</p>
-			  <div>In MongoDB a query targets a specific collection of documents. Queries specify criteria, or conditions, that identify the documents that MongoDB returns to the clients. 
-	Query may include a projection that specifies the fields from the matching documents to return. You can optionally modify queries to impose limits, skips, and sort orders.</div>
-            </header>
-			<ul>
-				<li>
-					Query using Modifier
-					<img src="/assets/img/mongopresentation/find_structure.png" alt="">
-				</li>
-				<li>
-					Query using Projection
-					<img src="/assets/img/mongopresentation/find_structure_projection.png" alt="">
-				</li>
-				
-			</ul>
-		  </div>
-		  
-		  <div class="description">		    
-			<header class="major">
-					<p>Data Modification</p>
-			  <div>Data modification refers to operations that create, update, or delete data. In MongoDB, these operations modify the data of a single collection. For the update and delete operations, you can specify the criteria to select the documents to update or remove.</div>
-			</header>
-					<img src="/assets/img/mongopresentation/crud-insert-stages.png" alt="">
-		  </div>
-		  
-        </div>
-	  
-	  </section>
-	  
-	  <section id="operations-insert">
-	    <header class="major">
-          <h2>Operations</h2>
-        </header>
-		<div class="container">
-		  <div class="description">
-		
-					INSERT
-					<p>One document</p>
-					<code>db.users.insert({ 'name': 'henrique', 'email': 'helias@avenuecode.com'});<br/>
-					WriteResult({ "nInserted" : 1 });</code>
-					<p>Multiple documents</p>
-					<code>db.users.insert([
-					<br/>&nbsp;&nbsp;	{ 'name': 'henrique', 'email': 'helias@avenuecode.com'}, 
-					<br/>	&nbsp;&nbsp;{ 'name': 'luiz', 'email': 'luiz@avenuecode.com', 'age': 31},
-					<br/>	&nbsp;&nbsp;{ '_id': 999, 'name': 'jose', 'email': 'jose@avenuecode.com', 'age': 30}
-					<br/>]);<br/>
-					BulkWriteResult({ <br/>
-   &nbsp;&nbsp;"writeErrors" : [ ],<br/>
-   &nbsp;&nbsp;"writeConcernErrors" : [ ],<br/>
-   &nbsp;&nbsp;"nInserted" : 3,<br/>
-   &nbsp;&nbsp;"nUpserted" : 0,<br/>
-   &nbsp;&nbsp;"nMatched" : 0,<br/>
-   &nbsp;&nbsp;"nModified" : 0,<br/>
-   &nbsp;&nbsp;"nRemoved" : 0,<br/>
-   &nbsp;&nbsp;"upserted" : [ ]<br/>
-});
-					</code>
-					<br/>
-					<p> If the collection does not exist, then the insert() method will create the collection.</p>
-					<p> If the document does not specify an _id field, then MongoDB will add the _id field and assign a unique ObjectId for the document before inserting. If the document contains an _id field, the _id value must be unique within the collection to avoid duplicate key error.</p>
-					
-			
-		  </div>
-        </div>
-	  </section>
-	   <section id="operations-find">
-	    <header class="major">
-          <h2>Operations</h2>
-        </header>
-		<div class="container">
-		  <div class="description">
-		
-					FIND
-					<p>All documents that matches</p>
-					<code>db.users.find({ 'name': 'henrique'});<br/>
-					{<br/>
-    &nbsp;&nbsp;    "_id" : ObjectId("559155eed4c1c99a6cea267a"),<br/>
-   &nbsp;&nbsp;     "name" : "henrique",<br/>
-    &nbsp;&nbsp;    "email" : "helias@avenuecode.com"<br/>
-}<br/>
-			{<br/>
-    &nbsp;&nbsp;    "_id" : ObjectId("5591565fd4c1c99a6cea267b"),<br/>
-   &nbsp;&nbsp;     "name" : "henrique",<br/>
-    &nbsp;&nbsp;    "email" : "helias@gmail.com"<br/>
-}<br/>
-</code>
-			FIND ONE
-					<p>First document that matches</p>
-						<code>db.users.findOne({ 'name': 'henrique'});<br/>
-					{<br/>
-    &nbsp;&nbsp;    "_id" : ObjectId("559155eed4c1c99a6cea267a"),<br/>
-   &nbsp;&nbsp;     "name" : "henrique",<br/>
-    &nbsp;&nbsp;    "email" : "helias@avenuecode.com"<br/>
-}
-</code><br/>
-<p>Also, db.collection.find() method returns a cursor:</p>
-<code>var myCursor = db.users.find( { name: 'henrique' } );<br/>
-while (myCursor.hasNext()) {<br/>
-   &nbsp;&nbsp;  printjson(myCursor.next());<br/>
-}<br/>
-<br/>
-{<br/>
-        &nbsp;&nbsp;"_id" : ObjectId("559166c9fdf6cb62ff65653e"),<br/>
-        &nbsp;&nbsp;"name" : "henrique",<br/>
-        &nbsp;&nbsp;"age" : 29<br/>
-}<br/>
-{<br/>
-        &nbsp;&nbsp;"_id" : ObjectId("559166cefdf6cb62ff65653f"),<br/>
-        &nbsp;&nbsp;"name" : "henrique",<br/>
-        &nbsp;&nbsp;"age" : 50<br/>
-}<br/>
-</code>
-		  </div>
-        </div>
-	  </section>
-	  
-	  
-	  <section id="node-driver">
-	    <header class="major">
-          <h2>NodeJS Driver</h2>
-        </header>
-		<div class="container">
-		  <div class="description">
-			<p> Usually uses the same syntax from MongoDB shell.</p><br/>			
-			
-			<div class="two-column-code">
-			 MongoDB
-				<code>
-				mongo mydatabase<br/>
-				db.users.find({ 'name' : 'henrique' });<br/>
-				<br/>
 
-				</code>
-				NodeJS
-			  		<code>
-				var MongoClient = require('mongodb').MongoClient;<br/>
 
-MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<br/>
-    if(err) throw err;<br/>
-
-    var query = { 'name' : 'henrique' };<br/>
-
-    var cursor = db.collection('users').find(query);<br/>
-
-    cursor.each(function(err, doc) {<br/>
-  &nbsp;&nbsp;      if(err) throw err;<br/>
-
-   &nbsp;&nbsp;     if(doc == null) {<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;        return db.close();<br/>
-   &nbsp;&nbsp;     }<br/>
-
-    &nbsp;&nbsp;    console.dir(doc.name);<br/>
-  &nbsp;&nbsp;  });<br/>
-});<br/>
-
-				</code>
-			</div>
-		  </div>
-        </div>
-	  </section>
-	    
 	
       <section id="quiz1">
 	     <header class="major">
@@ -445,6 +317,366 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 		  </fieldset>    		  
         </div>
       </section>
+	  
+	
+
+	  <section id="querystructure">
+	    <header class="major">
+          <h2>Database Operations</h2>
+        </header>
+		<div class="container">
+		  <div class="description">		    
+			<header class="major">
+				<p> Read Operations</p>
+			  <div>In MongoDB a query targets a specific collection of documents. Queries specify criteria, or conditions, that identify the documents that MongoDB returns to the clients. 
+	Query may include a projection that specifies the fields from the matching documents to return. You can optionally modify queries to impose limits, skips, and sort orders.</div>
+            </header>
+			<ul>
+
+				<li>
+					<p>Query Interface</p>
+					For query operations, MongoDB provides a db.collection.find() method. The method accepts both the query criteria and projections and returns a cursor to the matching documents. You can optionally modify the query to impose limits, skips, and sort orders.
+
+The following diagram highlights the components of a MongoDB query operation:
+					<img src="/assets/img/mongopresentation/crud-annotated-mongodb-find.png" alt="">
+					
+				</li>
+
+
+				<li>
+					<p>Query Behavior</p>
+					<ul style="list-style-type: upper-roman">
+						<li>
+							For query operations, MongoDB provides a db.collection.find() method
+							
+							
+						</li>
+						<li>
+							The method accepts both the query criteria and projections and returns a cursor to the matching documents
+							
+						</li>				
+						<li>
+							You can optionally modify the query to impose limits, skips, and sort orders
+							
+						</li>				
+
+
+						<li>
+							Ordered Execution: Sort, Skip & Limit							
+						</li>				
+					</ul>
+					
+				</li>
+
+
+				<li>
+					<p>Query Statements</p>
+					<ul style="list-style-type: upper-roman">
+						<li>
+							Query using Modifier
+						<img src="/assets/img/mongopresentation/find_structure.png" alt="">
+							
+							
+						</li>
+						<li>
+							Query using Projection
+						<img src="/assets/img/mongopresentation/find_structure_projection.png" alt="">
+							
+						</li>				
+					</ul>
+					
+				</li>
+				<li>
+					<p>Cursor</p>
+						In the mongo shell, the primary method for the read operation is the db.collection.find() method. This method queries a collection and returns a cursor to the returning documents. To access the documents, you need to iterate the cursor. <br/>However, in the mongo shell, if the returned cursor is not assigned to a variable using the var keyword, then the cursor is automatically iterated up to 20 times to print up to the first 20 documents in the results.
+				</li>
+
+			</ul>
+		  </div>
+		  
+        
+		  
+
+		  <div class="description">		    
+			<header class="major">
+					<p>Query Optimization</p>
+			  
+			</header>
+					If your application queries a collection on a particular field or set of fields, then an index on the queried field or a compound index on the set of fields can prevent the query from scanning the whole collection to find and return the query results.
+
+					<code> db.users.createIndex( { email: 1 } )</code>
+					<code> db.users.find({ email: 'test@tester.com' } )</code>
+					<code>
+						{<br/>
+      &nbsp;&nbsp;  "queryPlanner" : {<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;"plannerVersion" : 1,<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;"namespace" : "social.users",<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;"indexFilterSet" : false,<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;"parsedQuery" : {<br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email" : {<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"$eq" : "tester.com"<br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;},<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;"winningPlan" : {<br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stage" : "FETCH",<br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"inputStage" : {<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stage" : "IXSCAN",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"keyPattern" : {<br/>
+                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"email" : 1<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"indexName" : "email_1",<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"isMultiKey" : false,<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"direction" : "forward",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"indexBounds" : {<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        "email" : [<br/>
+                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"[\"tester.com\", \"tester.com\"<br/>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]"<br/>
+  &nbsp;&nbsp;                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+                     &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;}<br/>
+                &nbsp;&nbsp;},<br/>
+                &nbsp;&nbsp;"rejectedPlans" : [ ]<br/>
+        },<br/>
+        &nbsp;&nbsp;"serverInfo" : {<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;"host" : "Henrique-DELL",<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;"port" : 27017,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;"version" : "3.0.2",<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;"gitVersion" : "6201872043ecbbc0a4cc169b5482dcf385fc464f"<br/>
+        &nbsp;&nbsp;},<br/>
+        &nbsp;&nbsp;"ok" : 1<br/>
+}
+
+					</code>
+
+					An index covers a query when both of the following apply:
+
+
+					<ul><li> all the fields in the query are part of an index </li> <li>all the fields returned in the results are in the same index</li></ul>
+
+					An index cannot cover a query if:
+					<ul><li> Any of the indexed fields in any of the documents in the collection includes an array. If an indexed field is an array, the index becomes a multi-key index and cannot support a covered query.</li> <li>Any of the indexed field in the query predicate or returned in the projection are fields in embedded documents.</li></ul>
+
+		  </div>
+		  
+		  <div class="description">		    
+			<header class="major">
+					<p>Write Operations</p>
+			  <div>Data modification refers to operations that create, update, or delete data. In MongoDB, these operations modify the data of a single collection. For the update and delete operations, you can specify the criteria to select the documents to update or remove.</div>
+			</header>
+					<img src="/assets/img/mongopresentation/crud-insert-stages.png" alt="">
+					<ul>
+
+					<li>
+					<p>Insert Interface</p>
+					In MongoDB, the db.collection.insert() method adds new documents to a collection.
+
+
+<br/>
+The following diagram highlights the components of a MongoDB insert operation:
+<img src="/assets/img/mongopresentation/crud-annotated-mongodb-insert.png" alt="">
+
+					
+				</li>
+
+
+				<li>
+					<p>Insert Behavior</p>
+					If you add a new document without the _id field, the client library or the mongod instance adds an _id field and populates the field with a unique ObjectId.
+<br/>
+If you specify the _id field, the value must be unique within the collection. For operations with write concern, if you try to create a document with a duplicate _id value, mongod returns a duplicate key exception.
+					
+				</li>
+
+
+				<li>
+					<p>Update Interface</p>
+					In MongoDB, the db.collection.update() method modifies existing documents in a collection. The db.collection.update() method can accept query criteria to determine which documents to update as well as an options document that affects its behavior, such as the multi option to update multiple documents.
+<br/>
+Operations performed by an update are atomic within a single document. For example, you can safely use the $inc and $mul operators to modify frequently-changed fields in concurrent applications.
+<img src="/assets/img/mongopresentation/crud-annotated-mongodb-update.png" alt="">
+
+
+					
+				</li>
+
+
+	<li>
+					<p>Update Behavior</p>
+					By default, the db.collection.update() method updates a single document. However, with the multi option, update() can update all documents in a collection that match a query. <br/>
+					By default, it replaces fully by the document passed as argument
+
+
+					
+				</li>
+
+				<li>
+					<p>Remove Interface</p>
+					In MongoDB, the db.collection.remove() method deletes documents from a collection. The db.collection.remove() method accepts a query criteria to determine which documents to remove.
+
+<img src="/assets/img/mongopresentation/crud-annotated-mongodb-remove.png" alt="">
+					
+				</li>
+
+				<li>
+					<p>Remove Behavior</p>
+					By default, db.collection.remove() method removes all documents that match its query. However, the method can accept a flag to limit the delete operation to a single document.
+
+
+					
+				</li>
+
+
+
+			</ul>
+		  </div>
+        </div>
+		  
+
+		  
+		  
+        </div>
+	  
+	  </section>
+	      <section id="queryfilter">
+	    <header class="major">
+          <h2>Query Filters</h2>
+        </header>
+		<div class="container">
+		   <header class="major">
+            <h3>Conditions</h3>
+          </header>
+		  <div class="description">		    			
+			<ul>
+				<li>
+					All Documents
+					<code>db.users.find({})</code>
+				</li>
+				<li>
+					Equality Condition
+					<code>db.users.find( { name: 'henrique'} )</code>
+				</li>				
+				<li>
+					AND Condition
+					<code>db.users.find( { name: 'henrique', email: 'helias@avenuecode.com' } )</code>
+				</li>
+				
+				<li>
+					OR Condition
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}] })</code>
+				</li>
+				
+				<li>
+					AND with OR Condition
+					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}], age: 31 } )</code>
+				</li>
+				
+				
+			
+			</ul>
+		  </div>		  		  
+        </div>	 
+		<div class="container">
+		   <header class="major">
+            <h3>Operators</h3>			
+          </header>
+		  <div class="description">		
+			<ul>
+				<li>
+					Greather and Less Than Conditions
+					<code>db.students.find({ score : { $gt : 50 , $lt : 60 } })</code>
+				</li>
+				<li>
+					Regular Expressions and Exists Conditions
+					<code>db.users.find({ 'name':{'$regex': 'q'}, 'email': {'$exists': true}})</code>
+				</li>
+				<li>
+					Searching in a array
+					<code>db.products.find( { tags : "shiny" } );</code>
+					<code>
+					{ _id : 42 , name : "Whizzy Wiz-o-matic", tags : [ "awesome", "shiny" , "green" ] }
+						<br/>
+{ _id : 1040 , name : "Snappy Snap-o-lux", tags : "shiny" }
+					</code>
+				</li>
+				
+				<li>
+					All/Some values match
+					<code>db.users.find( { friends : { $all : [ "Joe" , "Bob" ] }, favorites : { $in : [ "running" , "pickles" ] } } )</code>
+				</li>
+				
+				<li>
+					Dot Notation Queries
+					
+					<code>
+						{ 
+<br/>&nbsp;&nbsp;&nbsp;product : "Super Duper-o-phonic", <br/>
+  &nbsp;&nbsp; price : 100000000000,<br/>
+  &nbsp;&nbsp; reviews : [ <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ user : "fred", comment : "Great!" , rating : 5 },<br/>
+              &nbsp;&nbsp; &nbsp;&nbsp; { user : "tom" , comment : "I agree with Fred, somewhat!" , rating : 4 } <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br/>
+  }
+
+
+					</code>
+					<code>db.catalog.find({'price' : { $gt: 10000 },  'reviews.rating': { $gte: 5 } });</code>
+				</li>
+				
+				
+				<li>
+					Others: $push, $pop, $pushAll, $pullAll, $addToSet
+				</li>
+			
+			</ul>
+		  </div>		  		  
+        </div>	 		
+	  </section>
+
+	  
+	  <section id="node-driver">
+	    <header class="major">
+          <h2>NodeJS Driver</h2>
+        </header>
+		<div class="container">
+		  <div class="description">
+			<p> Usually uses the same syntax from MongoDB shell.</p><br/>			
+			
+			<div class="two-column-code">
+			 MongoDB
+				<code>
+				mongo mydatabase<br/>
+				db.users.find({ 'name' : 'henrique' });<br/>
+				<br/>
+
+				</code>
+				NodeJS
+			  		<code>
+				var MongoClient = require('mongodb').MongoClient;<br/>
+
+MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<br/>
+    if(err) throw err;<br/>
+
+    var query = { 'name' : 'henrique' };<br/>
+
+    var cursor = db.collection('users').find(query);<br/>
+
+    cursor.each(function(err, doc) {<br/>
+  &nbsp;&nbsp;      if(err) throw err;<br/>
+
+   &nbsp;&nbsp;     if(doc == null) {<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;        return db.close();<br/>
+   &nbsp;&nbsp;     }<br/>
+
+    &nbsp;&nbsp;    console.dir(doc.name);<br/>
+  &nbsp;&nbsp;  });<br/>
+});<br/>
+
+				</code>
+			</div>
+		  </div>
+        </div>
+	  </section>
+
+
+	    
 	   
 	  <section id="homework1">
 	    <header class="major">
@@ -520,7 +752,55 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
           <fieldset>
 			<div>Use findOne on the collection fruit(that you've used on 1.4) to find one document where the color is "red", and retrieve only the fruit name and fruit shape.			
 			</div>
-          </fieldset>		      
+          </fieldset>	
+
+          <header class="major">
+            <h3>Homework 1.6</h3>
+          </header>
+          <fieldset>
+			<div>Use mongoimport to import json data into your local data.
+			Do this by opening a terminal window (mac) or cmd window (windows) and navigating to data's directory. 
+			<br/>
+			Now type:</div>
+				<code>mongoimport -d school -c students < data.json</code>
+			
+			<div>
+				This dataset holds the same type of data as last week's grade collection, but it's modeled differently. You might want to start by inspecting it in the Mongo shell.<br/>
+
+Write a program that will remove the lowest homework score for each student. Since there is a single document for each student containing an array of scores, you will need to update the scores array and remove the homework.
+
+Remember, just remove a homework score. Don't remove a quiz or an exam!
+<code>db.students.find( { _id : 137 } ).pretty( )</code>
+<code>{<br/>
+	&nbsp;&nbsp; "_id" : 137,<br/>
+	&nbsp;&nbsp; "name" : "Tamika Schildgen",<br/>
+	&nbsp;&nbsp; "scores" : [<br/>
+		&nbsp;&nbsp; {<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "type" : "exam",<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "score" : 4.433956226109692<br/>
+		&nbsp;&nbsp; },<br/>
+		&nbsp;&nbsp; {<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "type" : "quiz",<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "score" : 65.50313785402548<br/>
+		&nbsp;&nbsp; },<br/>
+		&nbsp;&nbsp; {<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "type" : "homework",<br/>
+			&nbsp;&nbsp; &nbsp;&nbsp; "score" : 89.5950384993947<br/>
+		&nbsp;&nbsp; }<br/>
+	&nbsp;&nbsp; ]<br/>
+}</code>
+
+			</div>
+
+			<code>
+				db.students.aggregate( 
+	&nbsp;&nbsp;			<br/>{ '$unwind' : '$scores' } , 
+&nbsp;&nbsp;				<br/>{ '$group' : { '_id' : '$_id' , 'average' : { $avg : '$scores.score' } } } , 
+				&nbsp;&nbsp;<br/>{ '$sort' : { 'average' : -1 } } , { '$limit' : 1 } 
+				<br/>)
+
+			</code>
+		  </fieldset>	      
         </div>
       </section>
 
@@ -528,86 +808,7 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 	
 	
 	  
-	  <section id="queryfilter">
-	    <header class="major">
-          <h2>Query Filters</h2>
-        </header>
-		<div class="container">
-		   <header class="major">
-            <h3>Conditions</h3>
-          </header>
-		  <div class="description">		    			
-			<ul>
-				<li>
-					All Documents
-					<code>db.users.find({})</code>
-				</li>
-				<li>
-					Specify Equality Condition
-					<code>db.users.find( { name: 'henrique'} )</code>
-				</li>				
-				<li>
-					Specify AND Conditions
-					<code>db.users.find( { name: 'henrique', email: 'helias@avenuecode.com' } )</code>
-				</li>
-				
-				<li>
-					Specify OR Conditions
-					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}] })</code>
-				</li>
-				
-				<li>
-					Specify AND as well as OR Conditions
-					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}], age: 31 } )</code>
-				</li>
-				
-				
-			
-			</ul>
-		  </div>		  		  
-        </div>	 
-		<div class="container">
-		   <header class="major">
-            <h3>Embedded Documents</h3>			
-          </header>
-		  <div class="description">		
-<p>When the field holds an embedded document, a query can either specify an exact match on the embedded document or specify a match by individual fields in the embedded document using the dot notation.</p>		  
-			<ul>
-				<li>
-					All Documents
-					<code>db.users.find({})</code>
-				</li>
-				<li>
-					Specify Equality Condition
-					<code>db.users.find( { name: 'henrique'} )</code>
-				</li>
-				<!--<li>
-					Specify Conditions Using Query Operators
-					<code>db.users.find( { name: { $in: ['henrique', 'henriq2222' ]}} )</code>
-				</li>
-				-->
-				<li>
-					Specify AND Conditions
-					<code>db.users.find( { name: 'henrique', email: 'helias@avenuecode.com' } )</code>
-				</li>
-				
-				<li>
-					Specify OR Conditions
-					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}] })</code>
-				</li>
-				
-				<li>
-					Specify AND as well as OR Conditions
-					<code>db.users.find( { $or: [ { name: 'henrique'}, { name: 'helias@avenuecode.com'}], age: 31 } )</code>
-				</li>
-				
-				
-			
-			</ul>
-		  </div>		  		  
-        </div>	 		
-	  </section>
-
+	
     <section id="footer">
       <div class="container">
         <ul class="copyright">
@@ -626,16 +827,16 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 	</header>
 	<nav id="nav">
 	  <ul>
-          <li><a href="#intro" class="active" id="intro-link">Introduction</a></li>
+          <li><a href="#intro" id="intro-link">Introduction</a></li>
 		  <li><a href="#install"  id="install-link">Installation</a></li>
+		  <li><a href="#commands"  id="commands-link">Commands</a></li>
 		  <li><a href="#basicconcepts"  id="basicconcepts-link">Basic Concepts</a></li>		  		  
-		  <li><a href="#querystructure"  id="querystructure-link">Database Operations</a></li>
-		  <li><a href="#operations-insert"  id="operations-insert-link">Operations - Insert</a></li>
-		  <li><a href="#operations-find"  id="operations-find-link">Operations - Find</a></li>
-		  <li><a href="#node-driver"  id="node-driver-link">NodeJS Driver</a></li>
 		  <li><a href="#quiz1"  id="quiz-link">Quiz</a></li>
-		  <li><a href="#homework1"  id="hw1-link">Homework</a></li>
+		  <li><a href="#querystructure"  id="querystructure-link">Database Operations</a></li>
 		  <li><a href="#queryfilter"  id="query-filter-link">Query Filters</a></li>
+		  <li><a href="#node-driver"  id="node-driver-link">NodeJS Driver</a></li>		  
+		  <li><a href="#homework1"  id="hw1-link">Homework</a></li>
+		  
 		</ul>
       <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
     </nav>
@@ -651,6 +852,8 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
 
           ga('create', 'UA-XXXXX-X');
           ga('send', 'pageview');
+
+
         </script>
 
     <!--[if lt IE 9]>
@@ -690,5 +893,26 @@ MongoClient.connect('mongodb://localhost:27017/mydatabase', function(err, db) {<
     <script src="components/navbar/navbar.controller.js"></script>
     <!-- endinjector -->
     <!-- endbuild -->
+
+     <script>
+      
+
+          $(document).ready(function(){
+          	var selectorNav = '#nav ul li';
+          	var menuLink = $(this.location.hash+"-link");
+          	if( !menuLink){
+          		 menuLink = '#intro-link';
+      		}
+      		menuLink.addClass('active');
+          	$(selectorNav).click(function(){
+          		$(selectorNav).find(' a.active').removeClass('active');
+				$(this).find('a').addClass('active');
+          	});
+
+          });
+
+
+        </script>
+
   </body>
   </html>
