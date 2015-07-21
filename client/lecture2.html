@@ -29,38 +29,274 @@
   <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
 	<div id="wrapper">
 
-
-  <section id="homework2">
+  <section id="aggregation">
 	    <header class="major">
-          <h2>Homework</h2>
+            <h2>Aggregation</h2>            
+         </header>
+        <div class="container">
+		  <div class="description">
+Aggregations are operations that process data records and return computed results. MongoDB provides a rich set of aggregation operations that examine and perform calculations on the data sets. Running data aggregation on the mongod instance simplifies application code and limits resource requirements.
+<br/>
+Like queries, aggregation operations in MongoDB use collections of documents as an input and return results in the form of one or more documents.
+<br/><br/>
+<p>Aggregation Modalities</p>
+			<ul>
+			<li>		
+			Aggregation Pipelines -  Documents enter a multi-stage pipeline that transforms the documents into an aggregated result.  <a href="http://docs.mongodb.org/manual/reference/operator/aggregation/#aggregation-pipeline-operator-reference">Stages</a><br/>
+
+			<img src="/assets/img/mongopresentation/aggregation-pipeline.png" alt="">
+			<ul  style="list-style-type: upper-roman">
+		<li>		Match - Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
+
+		<code>
+			db.articles.aggregate(<br/>
+      &nbsp;&nbsp;[ { $match : { author : "dave" } } ]<br/>
+);<br>
+
+
+		</code>
+<code>
+db.articles.aggregate(<br/>
+   &nbsp;&nbsp;[<br/>
+     &nbsp;&nbsp;&nbsp;&nbsp;{ $match: { $text: { $search: "cake" } } },<br/>
+     &nbsp;&nbsp;&nbsp;&nbsp;{ $group: { _id: { $meta: "textScore" }, count: { $sum: 1 } } }<br/>
+   &nbsp;&nbsp;]<br/>
+)
+</code>
+		</li>
+<li>Group - Groups documents by some specified expression and outputs to the next stage a document for each distinct grouping. The output documents contain an _id field which contains the distinct group by key. The output documents can also contain computed fields that hold the values of some accumulator expression 
+<br/>
+Accumulator Operator
+<ul>
+<li>$sum - Returns a sum for each group. Ignores non-numeric values.</li>
+<li>$avg - Returns an average for each group. Ignores non-numeric values.</li>
+<li>$first - Returns a value from the first document for each group. Order is only defined if the documents are in a defined order.</li>
+<li>$last - Returns a value from the last document for each group. Order is only defined if the documents are in a defined order.</li>
+<li>$max - Returns the highest expression value for each group.</li>
+<li>$min - Returns the lowest expression value for each group.</li>
+<li>$push - Returns an array of expression values for each group.</li>
+<li>$addToSet - Returns an array of unique expression values for each group. Order of the array elements is undefined.</li>
+</ul>
+<code>
+
+db.sales.aggregate(<br>
+         &nbsp;&nbsp;[<br>
+            &nbsp;&nbsp;      &nbsp;&nbsp;{<br>
+              &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;$group : {<br>
+                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;_id : { month: { $month: "$date" }, day: { $dayOfMonth: "$date" }, year: { $year: "$date" } },<br>
+                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },<br>
+                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;averageQuantity: { $avg: "$quantity" },<br>
+                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;count: { $sum: 1 }<br>
+              &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
+         &nbsp;&nbsp;]<br>
+)
+</code>
+
+</li>
+<li>Skip - Skips over the specified number of documents that pass into the stage and passes the remaining documents to the next stage in the pipeline
+
+<code>
+db.article.aggregate(<br/>
+ &nbsp;&nbsp;   { $skip : 5 }<br/>
+);
+</code>
+</li>
+<li>Limit - Limits the number of documents passed to the next stage in the pipeline</li>
+
+
+<code>
+db.article.aggregate(<br/>
+ &nbsp;&nbsp;   { $limit : 5 }<br/>
+);
+</code>
+<li>Sort - Sorts all input documents and returns them to the pipeline in sorted order
+
+<code>
+	db.users.aggregate(<br/>
+&nbsp;&nbsp;   [<br/>
+  &nbsp;&nbsp;&nbsp;&nbsp;   { $sort : { age : -1, posts: 1 } }<br/>
+   &nbsp;&nbsp;]<br/>
+)
+
+
+</code>
+
+
+
+
+</li>
+<li>Project - Passes along the documents with only the specified fields to the next stage in the pipeline. The specified fields can be existing fields from the input documents or newly computed fields
+
+
+<code>
+	db.books.aggregate( [ { $project : { title : 1 , author : 1 } } ] )
+
+
+</code>
+ </li>
+<li>Unwind - Deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element
+<code>
+{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }
+</code>
+<code>
+db.inventory.aggregate( [ { $unwind : "$sizes" } ] )
+
+</code>
+<code>
+{ "_id" : 1, "item" : "ABC1", "sizes" : "S" }<br/>
+{ "_id" : 1, "item" : "ABC1", "sizes" : "M" }<br/>
+{ "_id" : 1, "item" : "ABC1", "sizes" : "L" }<br/>
+
+</code>
+ </li>
+
+			</ul>
+			</li>
+				<li>
+					Map-Reduce - Map-reduce uses custom JavaScript functions to perform the map and reduce operations					
+					<img src="/assets/img/mongopresentation/map-reduce.png" alt="">
+				</li>
+				<li>
+					Single Purpose Aggregation Operations - Count, Distinct, Group
+				</li>
+			</ul>
+		  </div>		  
+        </div>		        
+      </section>
+	 
+	  <section id="exercices2">
+	    <header class="major">
+          <h2>Exercices</h2>
         </header>
         <div class="container">
-          
-		   <header class="major">
-            <h3>Homework 1.2</h3>
+          <header class="major">
+            <h3>Exercise 2.1</h3>
           </header>
           <fieldset>
-			<div>Your assignment for this part of the homework is to install the mongodb driver for Node.js and run the test application.
-			<br/>
-			Use mongorestore to restore the dump into your running mongod. Do this by opening a terminal window (mac) or cmd window (windows) and navigating to the directory so that the dump directory is directly beneath you. Now type:
-			<br/>		
-			Now type:
+			<div>
+
+Write the aggregation query that will find the number of products by category of a collection that has the form:
+<code>
+
+{<br/>
+	&nbsp;&nbsp;"_id" : ObjectId("50b1aa983b3d0043b51b2c52"),<br/>
+	&nbsp;&nbsp;"name" : "Nexus 7",<br/>
+	&nbsp;&nbsp;"category" : "Tablets",<br/>
+	&nbsp;&nbsp;"manufacturer" : "Google",<br/>
+	&nbsp;&nbsp;"price" : 199<br/>
+}
+
+
+
+</code>
+
+
 			</div>
-			
-				<code>mongorestore dump</code>
-			<div>Then install the mongodb driver:	<code>npm install mongodb</code>
-			This should create a "node_modules" directory. Now run the application to get the answer to hw1-2:
-		<code>node app.js</code>
-			If you have the mongodb driver installed correctly, this will print out the message 'Answer: ' followed by some additional text. Please provide the obtained text.
+
+<code>
+db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
+</code>
+
+
+		  </fieldset>		       
+        </div>
+         <div class="container">
+          <header class="major">
+            <h3>Example 2.2</h3>
+          </header>
+          <fieldset>
+			<div>
+
+If you have the following collection of stuff:
+<code>
+
+db.stuff.find()<br/>
+{ "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+{ "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>	
+
+
+</code>
+
+
+<code> db.stuff.aggregate([{$group:{_id:'$c'}}])</code>
+
 			</div>
-		  </fieldset>
-		 	      
+		  </fieldset>		       
+        </div>
+
+          <div class="container">
+          <header class="major">
+            <h3>Example 2.3</h3>
+          </header>
+          <fieldset>
+			<div>
+
+Given the following collection:
+<code>
+
+db.stuff.find()<br/>
+{ "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
+{ "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+{ "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>
+{ "_id" : ObjectId("50b27f7080a78af03b5163cd"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+
+
+</code>
+
+<code>
+db.stuff.aggregate([{$group:<br/>
+		     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{_id:<br/>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'moe':'$a', <br/>
+		       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'larry':'$b',<br/>
+		       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'curly':'$c'<br/>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+		    &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+		    }])<br/>
+
+</code>
+
+			</div>
+		  </fieldset>		       
+        </div>
+         <div class="container">
+          <header class="major">
+            <h3>Example 2.4</h3>
+          </header>
+          <fieldset>
+			<div>
+
+Suppose we have a collection of populations by postal code. The postal codes in are in the _id field, and are therefore unique. Documents look like this:
+<code>
+
+{<br/>
+  &nbsp;&nbsp;	"city" : "CLANTON",<br/>
+	  &nbsp;&nbsp;"loc" : [<br/>
+  &nbsp;&nbsp;  &nbsp;&nbsp;		-86.642472,<br/>
+  &nbsp;&nbsp;  &nbsp;&nbsp;		32.835532<br/>
+  &nbsp;&nbsp;	],<br/>
+	  &nbsp;&nbsp;"pop" : 13990,<br/>
+	  &nbsp;&nbsp;"state" : "AL",<br/>
+	  &nbsp;&nbsp;"_id" : "35045"<br/>
+}
+
+</code>
+For students outside the United States, there are 50 non-overlapping states in the US with two letter abbreviations such as NY and CA. In addition, the capital of Washington is within an area designated the District of Columbia, and carries the abbreviation DC.<br/><br/> For purposes of the mail, the postal service considers DC to be a "state." So in this dataset, there are 51 states. We call postal codes "zip codes." A city may overlap several zip codes.<br/><br/>
+Write an aggregation query to sum up the population (pop) by state and put the result in a field called population. Don't use a compound _id key (you don't need one)
+
+
+			</div>
+		  </fieldset>		       
         </div>
       </section>
 
-    </div>
-	
-	  
+
 	
     <section id="footer">
       <div class="container">
@@ -80,7 +316,8 @@
 	</header>
 	<nav id="nav">
 	  <ul>
-          <li><a href="/lecture2.html#homework2" id="hw2-link">Homework</a></li>
+          <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
+          <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
 	  </ul>
       <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
     </nav>
