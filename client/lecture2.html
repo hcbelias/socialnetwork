@@ -203,7 +203,7 @@ db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
         </div>
          <div class="container">
           <header class="major">
-            <h3>Example 2.2</h3>
+            <h3>Exercise 2.2</h3>
           </header>
           <fieldset>
 			<div>
@@ -230,7 +230,7 @@ db.stuff.find()<br/>
 
           <div class="container">
           <header class="major">
-            <h3>Example 2.3</h3>
+            <h3>Exercise 2.3</h3>
           </header>
           <fieldset>
 			<div>
@@ -267,7 +267,7 @@ db.stuff.aggregate([{$group:<br/>
         </div>
          <div class="container">
           <header class="major">
-            <h3>Example 2.4</h3>
+            <h3>Exercise 2.4</h3>
           </header>
           <fieldset>
 			<div>
@@ -291,6 +291,140 @@ For students outside the United States, there are 50 non-overlapping states in t
 Write an aggregation query to sum up the population (pop) by state and put the result in a field called population. Don't use a compound _id key (you don't need one)
 
 
+			</div>
+		  </fieldset>		       
+        </div>
+
+        <div class="container">
+          <header class="major">
+            <h3>Exercise 2.5</h3>
+          </header>
+          <fieldset>
+			<div>
+
+Suppose we population by zip code (postal code) data that looks like this (putting in a query for the zip codes in Palo Alto)
+<code>
+db.zips.find({state:"CA",city:"PALO ALTO"})<br/>
+{ "city" : "PALO ALTO", "loc" : [ -122.149685, 37.444324 ], "pop" : 15965, "state" : "CA", "_id" : "94301" }<br/>
+{ "city" : "PALO ALTO", "loc" : [ -122.184234, 37.433424 ], "pop" : 1835, "state" : "CA", "_id" : "94304" }<br/>
+{ "city" : "PALO ALTO", "loc" : [ -122.127375, 37.418009 ], "pop" : 24309, "state" : "CA", "_id" : "94306" }<br/>
+
+</code>
+Write an aggregation query that will return the postal codes that cover each city. The results should look like this:
+<code>
+	
+{<br/>
+&nbsp;&nbsp;	"_id" : "CENTREVILLE",<br/>
+&nbsp;&nbsp;	"postal_codes" : [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;		"22020",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;		"49032",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;		"39631",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;		"21617",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;		"35042"<br/>
+&nbsp;&nbsp;	]<br/>
+}
+</code>
+(ignore the issue that a city may have the same name in two different states and is in fact two different cities in that case - for eg Springfield, MO and Springfield, MA)
+			</div>
+		  </fieldset>		       
+        </div>
+
+           <div class="container">
+          <header class="major">
+            <h3>Exercise 2.6</h3>
+          </header>
+          <fieldset>
+			<div>
+
+
+<code>
+db.fun.find()<br/>
+{ "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
+{ "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
+{ "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
+{ "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
+{ "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
+{ "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
+{ "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
+{ "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
+
+</code>
+And the following aggregation query
+<code>
+	db.fun.aggregate([{$group:{_id:{a:"$a", b:"$b"}, c:{$max:"$c"}}}, {$group:{_id:"$_id.a", c:{$min:"$c"}}}])
+</code>
+What values are returned?
+			</div>
+		  </fieldset>		       
+        </div>
+
+          <div class="container">
+          <header class="major">
+            <h3>Exercise 2.7</h3>
+          </header>
+          <fieldset>
+			<div>
+
+
+<code>
+db.fun.find()<br/>
+{ "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
+{ "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
+{ "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
+{ "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
+{ "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
+{ "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
+{ "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
+{ "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
+
+</code>
+What would be the value of c in the result from this aggregation query
+<code>
+	db.fun.aggregate([<br/>
+&nbsp;&nbsp;    {$match:{a:0}},<br/>
+&nbsp;&nbsp;    {$sort:{c:-1}}, <br/>
+&nbsp;&nbsp;    {$group:{_id:"$a", c:{$first:"$c"}}}<br/>
+])
+</code>
+			</div>
+		  </fieldset>		       
+        </div>
+
+        <div class="container">
+          <header class="major">
+            <h3>Exercise 2.8</h3>
+          </header>
+          <fieldset>
+			<div>
+Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. 
+<br/>
+For this problem, assume that a city name that appears in more than one state represents two separate cities. 
+<br/>
+Please round the answer to a whole number. 
+Hint: The answer for CT and NJ (using this data set) is 38177. 
+<br/>
+Please note:<br/>
+Different states might have the same city name.<br/>
+A city might have multiple zip codes.<br/>
+
+<br/><br/>
+For purposes of keeping the Hands On shell quick, we have used a subset of the data you previously used in zips.json, not the full set. This is why there are only 200 documents (and 200 zip codes), and all of them are in New York, Connecticut, New Jersey, and California. 
+<br/>
+<code> 
+mongoimport -d test -c zips --drop small_zips.json
+</code>
+
+<code>
+ db.zips.aggregate([ {$match: {state: {$in: ['CA', 'NY']}}}, {$group: { _id: {state: "$state", city: "$city"}, pop: {$sum: "$pop"} } }, {$match: {pop: {$gt: 25000}} }, {$group: { _id: null, pop: {$avg: "$pop"} } } ])
+</code>
+What would be the value of c in the result from this aggregation query
+<code>
+	db.fun.aggregate([<br/>
+&nbsp;&nbsp;    {$match:{a:0}},<br/>
+&nbsp;&nbsp;    {$sort:{c:-1}}, <br/>
+&nbsp;&nbsp;    {$group:{_id:"$a", c:{$first:"$c"}}}<br/>
+])
+</code>
 			</div>
 		  </fieldset>		       
         </div>
