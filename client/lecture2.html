@@ -481,15 +481,62 @@ In some cases, you can use replication to increase read capacity. Clients have t
 </ul>
 <a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
 
+        </div>
+      </section>
 
-</p>
+
+      <section id="sharding">
+      <header class="major">
+            <h2>Sharding</h2>            
+         </header>
+        <div class="container">
+        <p>
+        Sharding is a method for storing data across multiple machines.
+        </p>
+        <p>
+        MongoDB uses sharding to support deployments with very large data sets and high throughput operations. 
+        Database systems with large data sets and high throughput applications can challenge the capacity of a single server. 
+
+<ul>
+  <li>Sharding reduces the number of operations each shard handles</li>
+  <li>Sharding reduces the amount of data that each server needs to store</li>
+
+</ul>
+
+        </p>
+      
+
+
+
+<div style="
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+">
+<img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
+
+</div>
+
+<h3>Sharded Cluster Components</h3>
 <p>
+  
+<ul>
+  <li>Shards - A shard is a MongoDB instance that holds a subset of a collection’s data. Each shard is either a single mongod instance or a replica set. In production, all shards are replica sets. For more information see Shards.</li>
+  <li>Config Servers - Each config server is a mongod instance that holds metadata about the cluster. The metadata maps chunks to shards. For more information, see Config Servers.</li>
+<li>Routing Instances - Each router is a mongos instance that routes the reads and writes from applications to the shards. Applications do not access the shards directly. For more information see Sharded Cluster Query Routing.</li>
+</ul>
 
+<div style="
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+">
+<img  src="/assets/img/mongopresentation/sharded-cluster.png" alt=""/>
+</div>
 </p>
+<div></div>
+<a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
 
-
-
-          </p>
         </div>
       </section>
 
