@@ -390,43 +390,26 @@ What would be the value of c in the result from this aggregation query
 		  </fieldset>		       
         </div>
 
-        <div class="container">
+         <div class="container">
           <header class="major">
             <h3>Exercise 2.8</h3>
           </header>
           <fieldset>
-			<div>
-Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. 
-<br/>
-For this problem, assume that a city name that appears in more than one state represents two separate cities. 
-<br/>
-Please round the answer to a whole number. 
-Hint: The answer for CT and NJ (using this data set) is 38177. 
-<br/>
-Please note:<br/>
-Different states might have the same city name.<br/>
-A city might have multiple zip codes.<br/>
+      <div>
+Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. For this problem, assume that a city name that appears in more than one state represents two separate cities. Please round the answer to a whole number. <br/>
 
-<br/><br/>
-For purposes of keeping the Hands On shell quick, we have used a subset of the data you previously used in zips.json, not the full set. This is why there are only 200 documents (and 200 zip codes), and all of them are in New York, Connecticut, New Jersey, and California. 
-<br/>
+Different states might have the same city name. A city might have multiple zip codes.<br/>
+
 <code> 
 mongoimport -d test -c zips --drop small_zips.json
 </code>
 
-<code>
+<DIV style="color:white">
  db.zips.aggregate([ {$match: {state: {$in: ['CA', 'NY']}}}, {$group: { _id: {state: "$state", city: "$city"}, pop: {$sum: "$pop"} } }, {$match: {pop: {$gt: 25000}} }, {$group: { _id: null, pop: {$avg: "$pop"} } } ])
-</code>
-What would be the value of c in the result from this aggregation query
-<code>
-	db.fun.aggregate([<br/>
-&nbsp;&nbsp;    {$match:{a:0}},<br/>
-&nbsp;&nbsp;    {$sort:{c:-1}}, <br/>
-&nbsp;&nbsp;    {$group:{_id:"$a", c:{$first:"$c"}}}<br/>
-])
-</code>
-			</div>
-		  </fieldset>		       
+</DIV>
+
+      </div>
+      </fieldset>          
         </div>
       </section>
 
@@ -452,6 +435,8 @@ What would be the value of c in the result from this aggregation query
 	  <ul>
           <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
           <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
+            <li><a href="/lecture2.html#replicaset" id="replicaset-link">Replica Set</a></li>
+            <li><a href="/lecture2.html#sharding" id="sharding-link">Sharding</a></li>
 	  </ul>
       <img src="http://avenuecode.com/wp-content/themes/actheme/images/white-logo.png" alt="">
     </nav>
