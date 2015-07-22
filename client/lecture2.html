@@ -397,8 +397,7 @@ What would be the value of c in the result from this aggregation query
           <fieldset>
       <div>
 Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. For this problem, assume that a city name that appears in more than one state represents two separate cities. Please round the answer to a whole number. <br/>
-
-Different states might have the same city name. A city might have multiple zip codes.<br/>
+Different states might have the same city name. <br/>A city might have multiple zip codes.
 
 <code> 
 mongoimport -d test -c zips --drop small_zips.json
@@ -410,6 +409,87 @@ mongoimport -d test -c zips --drop small_zips.json
 
       </div>
       </fieldset>          
+        </div>
+      </section>
+     <section id="writeconcern">
+      <header class="major">
+            <h2>Write Concern</h2>            
+         </header>
+        <div class="container">
+          <p>From the perspective of a client application, whether a MongoDB instance is running as a single server (i.e. “standalone”) or a replica set is transparent. However, replica sets offer some configuration options for write. 
+          </p>
+<div style="
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+">
+<img  src="/assets/img/mongopresentation/crud-write-concern-w2.png" alt=""/>
+
+</div>
+
+        </div>
+    </section>
+
+
+      <section id="replicaset">
+      <header class="major">
+            <h2>Replica Set</h2>            
+         </header>
+        <div class="container">
+          <p>Replication is the process of synchronizing data across multiple servers - Asynchronous Replication.</p>
+
+          <code>
+            mongod --replSet m101 --logpath "1.log" --dbpath /data/rs1 --port 27017 --oplogSize 64 --fork --smallfiles<br/>
+mongod --replSet m101 --logpath "2.log" --dbpath /data/rs2 --port 27018 --oplogSize 64 --smallfiles --fork<br/>
+mongod --replSet m101 --logpath "3.log" --dbpath /data/rs3 --port 27019 --oplogSize 64 --smallfiles --fork<br/>
+
+          </code>
+          <p>
+In some cases, you can use replication to increase read capacity. Clients have the ability to send read and write operations to different servers. You can also maintain copies in different data centers to increase the locality and availability of data for distributed applications.
+<div style="
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+">
+<img  src="/assets/img/mongopresentation/replica-set-read-write-operations-primary.png" alt=""/>
+
+</div>
+<p>The replica set can have at most one primary. If the current primary becomes unavailable, an election determines the new primary.   The secondaries replicate the primary’s oplog and apply the operations to their data sets such that the secondaries’ data sets reflect the primary’s data set. If the primary is unavailable, the replica set will elect a secondary to be primary. 
+</p>
+<div style="
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+">
+<img src="/assets/img/mongopresentation/replica-set-trigger-election.png"/>
+</div>
+<h3>Election Triggering Events</h3>
+<p>
+  Replica sets hold an election any time there is no primary: 
+  </p>
+  <ul>
+  <li>the initiation of a new replica set</li>
+  <li>a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary</li>
+  <li>primary steps down</li>
+</ul>
+  <p>A primary will step down:</p>
+<ul>
+  <li>after receiving the replSetStepDown command</li>
+  <li>if one of the current secondaries is eligible for election and has a higher priority</li>
+  <li>if primary cannot contact a majority of the members of the replica set</li>
+
+</ul>
+<a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
+
+
+</p>
+<p>
+
+</p>
+
+
+
+          </p>
         </div>
       </section>
 
@@ -435,6 +515,8 @@ mongoimport -d test -c zips --drop small_zips.json
 	  <ul>
           <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
           <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
+            
+            <li><a href="/lecture2.html#writeconcern" id="writeconcern-link">Write Concern</a></li>
             <li><a href="/lecture2.html#replicaset" id="replicaset-link">Replica Set</a></li>
             <li><a href="/lecture2.html#sharding" id="sharding-link">Sharding</a></li>
 	  </ul>
