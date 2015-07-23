@@ -10,7 +10,7 @@
     /* Basic */
 
     body {
-      background: #fff;
+      background: #4ACAA8;
     }
 
     body, input, select, textarea {
@@ -990,17 +990,18 @@
     /* Footer */
 
     #footer {
-      background: #fafafa;
+      background: #4ACAA8;
       border-top: 0;
       color: #c0c0c0;
       overflow: hidden;
-      padding: 4em 0 2em 0;
+      padding: 20em 0 2em 0;
     }
 
     #footer .copyright {
       line-height: 1em;
       list-style: none;
       padding: 0;
+      color: white;
     }
 
     #footer .copyright li {

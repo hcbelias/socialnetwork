@@ -1,633 +1,538 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <base href="/">
-  <title>Avenue Code University: MongoDB/Mongoose</title>
-  <meta name="description" content="ShareMiles">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(client) app/vendor.css -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css({.tmp,client}) app/app.css -->
-  
-  <!-- injector:css -->
-  <!-- endinjector -->
-  <!-- endbuild -->
-   <link rel="stylesheet" href="assets/style/main.css" />
- 
-</head>
-
-<body cz-shortcut-listen="true" style="">
-  <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
-	<div id="wrapper">
-
-  <section id="aggregation">
-	    <header class="major">
-            <h2>Aggregation</h2>            
-         </header>
-        <div class="container">
-		  <div class="description">
-Aggregations are operations that process data records and return computed results. MongoDB provides a rich set of aggregation operations that examine and perform calculations on the data sets. Running data aggregation on the mongod instance simplifies application code and limits resource requirements.
-<br/>
-Like queries, aggregation operations in MongoDB use collections of documents as an input and return results in the form of one or more documents.
-<br/><br/>
-<p>Aggregation Modalities</p>
-			<ul>
-			<li>		
-			Aggregation Pipelines -  Documents enter a multi-stage pipeline that transforms the documents into an aggregated result.  <a href="http://docs.mongodb.org/manual/reference/operator/aggregation/#aggregation-pipeline-operator-reference">Stages</a><br/>
-
-			<img src="/assets/img/mongopresentation/aggregation-pipeline.png" alt="">
-			<ul  style="list-style-type: upper-roman">
-		<li>		Match - Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
-
-		<code>
-			db.articles.aggregate(<br/>
-      &nbsp;&nbsp;[ { $match : { author : "dave" } } ]<br/>
-);<br>
-
-
-		</code>
-<code>
-db.articles.aggregate(<br/>
-   &nbsp;&nbsp;[<br/>
-     &nbsp;&nbsp;&nbsp;&nbsp;{ $match: { $text: { $search: "cake" } } },<br/>
-     &nbsp;&nbsp;&nbsp;&nbsp;{ $group: { _id: { $meta: "textScore" }, count: { $sum: 1 } } }<br/>
-   &nbsp;&nbsp;]<br/>
-)
-</code>
-		</li>
-<li>Group - Groups documents by some specified expression and outputs to the next stage a document for each distinct grouping. The output documents contain an _id field which contains the distinct group by key. The output documents can also contain computed fields that hold the values of some accumulator expression 
-<br/>
-Accumulator Operator
-<ul>
-<li>$sum - Returns a sum for each group. Ignores non-numeric values.</li>
-<li>$avg - Returns an average for each group. Ignores non-numeric values.</li>
-<li>$first - Returns a value from the first document for each group. Order is only defined if the documents are in a defined order.</li>
-<li>$last - Returns a value from the last document for each group. Order is only defined if the documents are in a defined order.</li>
-<li>$max - Returns the highest expression value for each group.</li>
-<li>$min - Returns the lowest expression value for each group.</li>
-<li>$push - Returns an array of expression values for each group.</li>
-<li>$addToSet - Returns an array of unique expression values for each group. Order of the array elements is undefined.</li>
-</ul>
-<code>
-
-db.sales.aggregate(<br>
-         &nbsp;&nbsp;[<br>
-            &nbsp;&nbsp;      &nbsp;&nbsp;{<br>
-              &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;$group : {<br>
-                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;_id : { month: { $month: "$date" }, day: { $dayOfMonth: "$date" }, year: { $year: "$date" } },<br>
-                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },<br>
-                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;averageQuantity: { $avg: "$quantity" },<br>
-                 &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;count: { $sum: 1 }<br>
-              &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
-            &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
-         &nbsp;&nbsp;]<br>
-)
-</code>
-
-</li>
-<li>Skip - Skips over the specified number of documents that pass into the stage and passes the remaining documents to the next stage in the pipeline
-
-<code>
-db.article.aggregate(<br/>
- &nbsp;&nbsp;   { $skip : 5 }<br/>
-);
-</code>
-</li>
-<li>Limit - Limits the number of documents passed to the next stage in the pipeline</li>
-
-
-<code>
-db.article.aggregate(<br/>
- &nbsp;&nbsp;   { $limit : 5 }<br/>
-);
-</code>
-<li>Sort - Sorts all input documents and returns them to the pipeline in sorted order
-
-<code>
-	db.users.aggregate(<br/>
-&nbsp;&nbsp;   [<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;   { $sort : { age : -1, posts: 1 } }<br/>
-   &nbsp;&nbsp;]<br/>
-)
-
-
-</code>
-
-
-
-
-</li>
-<li>Project - Passes along the documents with only the specified fields to the next stage in the pipeline. The specified fields can be existing fields from the input documents or newly computed fields
-
-
-<code>
-	db.books.aggregate( [ { $project : { title : 1 , author : 1 } } ] )
-
-
-</code>
- </li>
-<li>Unwind - Deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element
-<code>
-{ "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }
-</code>
-<code>
-db.inventory.aggregate( [ { $unwind : "$sizes" } ] )
-
-</code>
-<code>
-{ "_id" : 1, "item" : "ABC1", "sizes" : "S" }<br/>
-{ "_id" : 1, "item" : "ABC1", "sizes" : "M" }<br/>
-{ "_id" : 1, "item" : "ABC1", "sizes" : "L" }<br/>
-
-</code>
- </li>
-
-			</ul>
-			</li>
-				<li>
-					Map-Reduce - Map-reduce uses custom JavaScript functions to perform the map and reduce operations					
-					<img src="/assets/img/mongopresentation/map-reduce.png" alt="">
-				</li>
-				<li>
-					Single Purpose Aggregation Operations - Count, Distinct, Group
-				</li>
-			</ul>
-		  </div>		  
-        </div>		        
-      </section>
-	 
-	  <section id="exercices2">
-	    <header class="major">
-          <h2>Exercices</h2>
-        </header>
-        <div class="container">
-          <header class="major">
-            <h3>Exercise 2.1</h3>
-          </header>
-          <fieldset>
-			<div>
-
-Write the aggregation query that will find the number of products by category of a collection that has the form:
-<code>
-
-{<br/>
-	&nbsp;&nbsp;"_id" : ObjectId("50b1aa983b3d0043b51b2c52"),<br/>
-	&nbsp;&nbsp;"name" : "Nexus 7",<br/>
-	&nbsp;&nbsp;"category" : "Tablets",<br/>
-	&nbsp;&nbsp;"manufacturer" : "Google",<br/>
-	&nbsp;&nbsp;"price" : 199<br/>
-}
-
-
-
-</code>
-
-
-			</div>
-
-<code>
-db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
-</code>
-
-
-		  </fieldset>		       
-        </div>
-         <div class="container">
-          <header class="major">
-            <h3>Exercise 2.2</h3>
-          </header>
-          <fieldset>
-			<div>
-
-If you have the following collection of stuff:
-<code>
-
-db.stuff.find()<br/>
-{ "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
-{ "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>	
-
-
-</code>
-
-
-<code> db.stuff.aggregate([{$group:{_id:'$c'}}])</code>
-
-			</div>
-		  </fieldset>		       
-        </div>
-
-          <div class="container">
-          <header class="major">
-            <h3>Exercise 2.3</h3>
-          </header>
-          <fieldset>
-			<div>
-
-Given the following collection:
-<code>
-
-db.stuff.find()<br/>
-{ "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
-{ "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
-{ "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>
-{ "_id" : ObjectId("50b27f7080a78af03b5163cd"), "a" : 3, "b" : 3, "c" : 2 }<br/>
-
-
-</code>
-
-<code>
-db.stuff.aggregate([{$group:<br/>
-		     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{_id:<br/>
-		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'moe':'$a', <br/>
-		       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'larry':'$b',<br/>
-		       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'curly':'$c'<br/>
-		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-		    &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-		    }])<br/>
-
-</code>
-
-			</div>
-		  </fieldset>		       
-        </div>
-         <div class="container">
-          <header class="major">
-            <h3>Exercise 2.4</h3>
-          </header>
-          <fieldset>
-			<div>
-
-Suppose we have a collection of populations by postal code. The postal codes in are in the _id field, and are therefore unique. Documents look like this:
-<code>
-
-{<br/>
-  &nbsp;&nbsp;	"city" : "CLANTON",<br/>
-	  &nbsp;&nbsp;"loc" : [<br/>
-  &nbsp;&nbsp;  &nbsp;&nbsp;		-86.642472,<br/>
-  &nbsp;&nbsp;  &nbsp;&nbsp;		32.835532<br/>
-  &nbsp;&nbsp;	],<br/>
-	  &nbsp;&nbsp;"pop" : 13990,<br/>
-	  &nbsp;&nbsp;"state" : "AL",<br/>
-	  &nbsp;&nbsp;"_id" : "35045"<br/>
-}
-
-</code>
-For students outside the United States, there are 50 non-overlapping states in the US with two letter abbreviations such as NY and CA. In addition, the capital of Washington is within an area designated the District of Columbia, and carries the abbreviation DC.<br/><br/> For purposes of the mail, the postal service considers DC to be a "state." So in this dataset, there are 51 states. We call postal codes "zip codes." A city may overlap several zip codes.<br/><br/>
-Write an aggregation query to sum up the population (pop) by state and put the result in a field called population. Don't use a compound _id key (you don't need one)
-
-
-			</div>
-		  </fieldset>		       
-        </div>
-
-        <div class="container">
-          <header class="major">
-            <h3>Exercise 2.5</h3>
-          </header>
-          <fieldset>
-			<div>
-
-Suppose we population by zip code (postal code) data that looks like this (putting in a query for the zip codes in Palo Alto)
-<code>
-db.zips.find({state:"CA",city:"PALO ALTO"})<br/>
-{ "city" : "PALO ALTO", "loc" : [ -122.149685, 37.444324 ], "pop" : 15965, "state" : "CA", "_id" : "94301" }<br/>
-{ "city" : "PALO ALTO", "loc" : [ -122.184234, 37.433424 ], "pop" : 1835, "state" : "CA", "_id" : "94304" }<br/>
-{ "city" : "PALO ALTO", "loc" : [ -122.127375, 37.418009 ], "pop" : 24309, "state" : "CA", "_id" : "94306" }<br/>
-
-</code>
-Write an aggregation query that will return the postal codes that cover each city. The results should look like this:
-<code>
-	
-{<br/>
-&nbsp;&nbsp;	"_id" : "CENTREVILLE",<br/>
-&nbsp;&nbsp;	"postal_codes" : [<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;		"22020",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;		"49032",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;		"39631",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;		"21617",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;		"35042"<br/>
-&nbsp;&nbsp;	]<br/>
-}
-</code>
-(ignore the issue that a city may have the same name in two different states and is in fact two different cities in that case - for eg Springfield, MO and Springfield, MA)
-			</div>
-		  </fieldset>		       
-        </div>
-
-           <div class="container">
-          <header class="major">
-            <h3>Exercise 2.6</h3>
-          </header>
-          <fieldset>
-			<div>
-
-
-<code>
-db.fun.find()<br/>
-{ "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
-{ "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
-{ "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
-{ "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
-{ "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
-{ "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
-{ "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
-{ "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
-
-</code>
-And the following aggregation query
-<code>
-	db.fun.aggregate([{$group:{_id:{a:"$a", b:"$b"}, c:{$max:"$c"}}}, {$group:{_id:"$_id.a", c:{$min:"$c"}}}])
-</code>
-What values are returned?
-			</div>
-		  </fieldset>		       
-        </div>
-
-          <div class="container">
-          <header class="major">
-            <h3>Exercise 2.7</h3>
-          </header>
-          <fieldset>
-			<div>
-
-
-<code>
-db.fun.find()<br/>
-{ "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
-{ "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
-{ "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
-{ "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
-{ "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
-{ "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
-{ "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
-{ "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
-
-</code>
-What would be the value of c in the result from this aggregation query
-<code>
-	db.fun.aggregate([<br/>
-&nbsp;&nbsp;    {$match:{a:0}},<br/>
-&nbsp;&nbsp;    {$sort:{c:-1}}, <br/>
-&nbsp;&nbsp;    {$group:{_id:"$a", c:{$first:"$c"}}}<br/>
-])
-</code>
-			</div>
-		  </fieldset>		       
-        </div>
-
-         <div class="container">
-          <header class="major">
-            <h3>Exercise 2.8</h3>
-          </header>
-          <fieldset>
-      <div>
-Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. For this problem, assume that a city name that appears in more than one state represents two separate cities. Please round the answer to a whole number. <br/>
-Different states might have the same city name. <br/>A city might have multiple zip codes.
-
-<code> 
-mongoimport -d test -c zips --drop small_zips.json
-</code>
-
-<DIV style="color:white">
- db.zips.aggregate([ {$match: {state: {$in: ['CA', 'NY']}}}, {$group: { _id: {state: "$state", city: "$city"}, pop: {$sum: "$pop"} } }, {$match: {pop: {$gt: 25000}} }, {$group: { _id: null, pop: {$avg: "$pop"} } } ])
-</DIV>
-
-      </div>
-      </fieldset>          
-        </div>
-      </section>
-     <section id="writeconcern">
-      <header class="major">
-            <h2>Write Concern</h2>            
-         </header>
-        <div class="container">
-          <p>From the perspective of a client application, whether a MongoDB instance is running as a single server (i.e. “standalone”) or a replica set is transparent. However, replica sets offer some configuration options for write. 
-          </p>
-<div style="
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-">
-<img  src="/assets/img/mongopresentation/crud-write-concern-w2.png" alt=""/>
-
-</div>
-
-        </div>
-    </section>
-
-
-      <section id="replicaset">
-      <header class="major">
-            <h2>Replica Set</h2>            
-         </header>
-        <div class="container">
-          <p>Replication is the process of synchronizing data across multiple servers - Asynchronous Replication.</p>
-
-          <code>
-            mongod --replSet m101 --logpath "1.log" --dbpath /data/rs1 --port 27017 --oplogSize 64 --fork --smallfiles<br/>
-mongod --replSet m101 --logpath "2.log" --dbpath /data/rs2 --port 27018 --oplogSize 64 --smallfiles --fork<br/>
-mongod --replSet m101 --logpath "3.log" --dbpath /data/rs3 --port 27019 --oplogSize 64 --smallfiles --fork<br/>
-
-          </code>
-          <p>
-In some cases, you can use replication to increase read capacity. Clients have the ability to send read and write operations to different servers. You can also maintain copies in different data centers to increase the locality and availability of data for distributed applications.
-<div style="
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-">
-<img  src="/assets/img/mongopresentation/replica-set-read-write-operations-primary.png" alt=""/>
-
-</div>
-<p>The replica set can have at most one primary. If the current primary becomes unavailable, an election determines the new primary.   The secondaries replicate the primary’s oplog and apply the operations to their data sets such that the secondaries’ data sets reflect the primary’s data set. If the primary is unavailable, the replica set will elect a secondary to be primary. 
-</p>
-<div style="
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-">
-<img src="/assets/img/mongopresentation/replica-set-trigger-election.png"/>
-</div>
-<h3>Election Triggering Events</h3>
-<p>
-  Replica sets hold an election any time there is no primary: 
-  </p>
-  <ul>
-  <li>the initiation of a new replica set</li>
-  <li>a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary</li>
-  <li>primary steps down</li>
-</ul>
-  <p>A primary will step down:</p>
-<ul>
-  <li>after receiving the replSetStepDown command</li>
-  <li>if one of the current secondaries is eligible for election and has a higher priority</li>
-  <li>if primary cannot contact a majority of the members of the replica set</li>
-
-</ul>
-<a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
-
-        </div>
-      </section>
-
-
-      <section id="sharding">
-      <header class="major">
-            <h2>Sharding</h2>            
-         </header>
-        <div class="container">
-        <p>
-        Sharding is a method for storing data across multiple machines.
-        </p>
-        <p>
-        MongoDB uses sharding to support deployments with very large data sets and high throughput operations. 
-        Database systems with large data sets and high throughput applications can challenge the capacity of a single server. 
-
-<ul>
-  <li>Sharding reduces the number of operations each shard handles</li>
-  <li>Sharding reduces the amount of data that each server needs to store</li>
-
-</ul>
-
-        </p>
-      
-
-
-
-<div style="
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-">
-<img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
-
-</div>
-
-<h3>Sharded Cluster Components</h3>
-<p>
-  
-<ul>
-  <li>Shards - A shard is a MongoDB instance that holds a subset of a collection’s data. Each shard is either a single mongod instance or a replica set. In production, all shards are replica sets. For more information see Shards.</li>
-  <li>Config Servers - Each config server is a mongod instance that holds metadata about the cluster. The metadata maps chunks to shards. For more information, see Config Servers.</li>
-<li>Routing Instances - Each router is a mongos instance that routes the reads and writes from applications to the shards. Applications do not access the shards directly. For more information see Sharded Cluster Query Routing.</li>
-</ul>
-
-<div style="
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
-">
-<img  src="/assets/img/mongopresentation/sharded-cluster.png" alt=""/>
-</div>
-</p>
-<div></div>
-<a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
-
-        </div>
-      </section>
-
-
-	
-    <section id="footer">
-      <div class="container">
-        <ul class="copyright">
-          <li>© Avenue Code. All rights reserved.</li>
-        </ul>
-      </div>
-    </section>
-
-   </div>
-  </div>
-  <div id="skel-layers-hiddenWrapper" style="height: 100%;"></div>
-  <div id="skel-layers-visibleWrapper" style="position: relative;">
-    <section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
-	<header>
-		<h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
-	</header>
-	<nav id="nav">
-	  <ul>
-          <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
-          <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
-            
-            <li><a href="/lecture2.html#writeconcern" id="writeconcern-link">Write Concern</a></li>
-            <li><a href="/lecture2.html#replicaset" id="replicaset-link">Replica Set</a></li>
-            <li><a href="/lecture2.html#sharding" id="sharding-link">Sharding</a></li>
-	  </ul>
-      <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
-    </nav>
-  </section>
-  </div>
-</body>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-XXXXX-X');
-          ga('send', 'pageview');
-
-
-        </script>
-
-    <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-    <!-- build:js({client,node_modules}) app/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js({.tmp,client}) app/app.js -->
-   
-    <!-- endinjector -->
-    <!-- endbuild -->
-
-     <script>
-      
-
-          $(document).ready(function(){
-          	var selectorNav = '#nav ul li';
-          	var menuLink = $(this.location.hash+"-link");
-          	if( !menuLink){
-          		 menuLink = '#intro-link';
-      		}
-      		menuLink.addClass('active');
-          	$(selectorNav).click(function(){
-          		$(selectorNav).find(' a.active').removeClass('active');
-				$(this).find('a').addClass('active');
-          	});
-
-          });
-
-
-        </script>
-
-  </body>
-  </html>
+<!--[if lt IE 7]>      
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+   <![endif]-->
+   <!--[if IE 7]>         
+   <html class="no-js lt-ie9 lt-ie8">
+      <![endif]-->
+      <!--[if IE 8]>         
+      <html class="no-js lt-ie9">
+         <![endif]-->
+         <!--[if gt IE 8]><!--> 
+         <html class="no-js">
+            <!--<![endif]-->
+            <head>
+               <meta charset="utf-8">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge">
+               <base href="/">
+               <title>Avenue Code University: MongoDB/Mongoose</title>
+               <meta name="description" content="ShareMiles">
+               <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+               <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+               <!-- build:css(client) app/vendor.css -->
+               <!-- bower:css -->
+               <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+               <!-- endbower -->
+               <!-- endbuild -->
+               <!-- build:css({.tmp,client}) app/app.css -->
+               <!-- injector:css -->
+               <!-- endinjector -->
+               <!-- endbuild -->
+               <link rel="stylesheet" href="assets/style/main.css" />
+            </head>
+            <body cz-shortcut-listen="true" style="">
+               <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+                  <div id="wrapper">
+                     <section id="aggregation">
+                        <header class="major">
+                           <h2>Aggregation</h2>
+                        </header>
+                        <div class="container">
+                           <div class="description">
+                              Aggregations are operations that process data records and return computed results. MongoDB provides a rich set of aggregation operations that examine and perform calculations on the data sets. Running data aggregation on the mongod instance simplifies application code and limits resource requirements.
+                              <br/>
+                              Like queries, aggregation operations in MongoDB use collections of documents as an input and return results in the form of one or more documents.
+                              <br/><br/>
+                              <p>Aggregation Modalities</p>
+                              <ul>
+                                 <li>
+                                    Aggregation Pipelines -  Documents enter a multi-stage pipeline that transforms the documents into an aggregated result.  <a href="http://docs.mongodb.org/manual/reference/operator/aggregation/#aggregation-pipeline-operator-reference">Stages</a><br/>
+                                    <img src="/assets/img/mongopresentation/aggregation-pipeline.png" alt="">
+                                    <ul  style="list-style-type: upper-roman">
+                                       <li>   Match - Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
+                                          <code>
+                                          db.articles.aggregate(<br/>
+                                          &nbsp;&nbsp;[ { $match : { author : "dave" } } ]<br/>
+                                          );<br>
+                                          </code>
+                                          <code>
+                                          db.articles.aggregate(<br/>
+                                          &nbsp;&nbsp;[<br/>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;{ $match: { $text: { $search: "cake" } } },<br/>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;{ $group: { _id: { $meta: "textScore" }, count: { $sum: 1 } } }<br/>
+                                          &nbsp;&nbsp;]<br/>
+                                          )
+                                          </code>
+                                       </li>
+                                       <li>
+                                          Group - Groups documents by some specified expression and outputs to the next stage a document for each distinct grouping. The output documents contain an _id field which contains the distinct group by key. The output documents can also contain computed fields that hold the values of some accumulator expression 
+                                          <br/>
+                                          Accumulator Operator
+                                          <ul>
+                                             <li>$sum - Returns a sum for each group. Ignores non-numeric values.</li>
+                                             <li>$avg - Returns an average for each group. Ignores non-numeric values.</li>
+                                             <li>$first - Returns a value from the first document for each group. Order is only defined if the documents are in a defined order.</li>
+                                             <li>$last - Returns a value from the last document for each group. Order is only defined if the documents are in a defined order.</li>
+                                             <li>$max - Returns the highest expression value for each group.</li>
+                                             <li>$min - Returns the lowest expression value for each group.</li>
+                                             <li>$push - Returns an array of expression values for each group.</li>
+                                             <li>$addToSet - Returns an array of unique expression values for each group. Order of the array elements is undefined.</li>
+                                          </ul>
+                                          <code>
+                                          db.sales.aggregate(<br>
+                                          &nbsp;&nbsp;[<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;{<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;$group : {<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;_id : { month: { $month: "$date" }, day: { $dayOfMonth: "$date" }, year: { $year: "$date" } },<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;totalPrice: { $sum: { $multiply: [ "$price", "$quantity" ] } },<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;averageQuantity: { $avg: "$quantity" },<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;count: { $sum: 1 }<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
+                                          &nbsp;&nbsp;      &nbsp;&nbsp;}<br>
+                                          &nbsp;&nbsp;]<br>
+                                          )
+                                          </code>
+                                       </li>
+                                       <li>Skip - Skips over the specified number of documents that pass into the stage and passes the remaining documents to the next stage in the pipeline
+                                          <code>
+                                          db.article.aggregate(<br/>
+                                          &nbsp;&nbsp;   { $skip : 5 }<br/>
+                                          );
+                                          </code>
+                                       </li>
+                                       <li>Limit - Limits the number of documents passed to the next stage in the pipeline</li>
+                                       <code>
+                                       db.article.aggregate(<br/>
+                                       &nbsp;&nbsp;   { $limit : 5 }<br/>
+                                       );
+                                       </code>
+                                       <li>Sort - Sorts all input documents and returns them to the pipeline in sorted order
+                                          <code>
+                                          db.users.aggregate(<br/>
+                                          &nbsp;&nbsp;   [<br/>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;   { $sort : { age : -1, posts: 1 } }<br/>
+                                          &nbsp;&nbsp;]<br/>
+                                          )
+                                          </code>
+                                       </li>
+                                       <li>Project - Passes along the documents with only the specified fields to the next stage in the pipeline. The specified fields can be existing fields from the input documents or newly computed fields
+                                          <code>
+                                          db.books.aggregate( [ { $project : { title : 1 , author : 1 } } ] )
+                                          </code>
+                                       </li>
+                                       <li>Unwind - Deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element
+                                          <code>
+                                          { "_id" : 1, "item" : "ABC1", sizes: [ "S", "M", "L"] }
+                                          </code>
+                                          <code>
+                                          db.inventory.aggregate( [ { $unwind : "$sizes" } ] )
+                                          </code>
+                                          <code>
+                                          { "_id" : 1, "item" : "ABC1", "sizes" : "S" }<br/>
+                                          { "_id" : 1, "item" : "ABC1", "sizes" : "M" }<br/>
+                                          { "_id" : 1, "item" : "ABC1", "sizes" : "L" }<br/>
+                                          </code>
+                                       </li>
+                                    </ul>
+                                 </li>
+                                 <li>
+                                    Map-Reduce - Map-reduce uses custom JavaScript functions to perform the map and reduce operations         
+                                    <img src="/assets/img/mongopresentation/map-reduce.png" alt="">
+                                 </li>
+                                 <li>
+                                    Single Purpose Aggregation Operations - Count, Distinct, Group
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </section>
+                     <section id="exercices2">
+                        <header class="major">
+                           <h2>Exercices</h2>
+                        </header>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.1</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 Write the aggregation query that will find the number of products by category of a collection that has the form:
+                                 <code>
+                                 {<br/>
+                                 &nbsp;&nbsp;"_id" : ObjectId("50b1aa983b3d0043b51b2c52"),<br/>
+                                 &nbsp;&nbsp;"name" : "Nexus 7",<br/>
+                                 &nbsp;&nbsp;"category" : "Tablets",<br/>
+                                 &nbsp;&nbsp;"manufacturer" : "Google",<br/>
+                                 &nbsp;&nbsp;"price" : 199<br/>
+                                 }
+                                 </code>
+                              </div>
+                              <code>
+                              db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
+                              </code>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.2</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 If you have the following collection of stuff:
+                                 <code>
+                                 db.stuff.find()<br/>
+                                 { "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+                                 { "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/> 
+                                 </code>
+                                 <code> db.stuff.aggregate([{$group:{_id:'$c'}}])</code>
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.3</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 Given the following collection:
+                                 <code>
+                                 db.stuff.find()<br/>
+                                 { "_id" : ObjectId("50b26f9d80a78af03b5163c8"), "a" : 1, "b" : 1, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fb480a78af03b5163c9"), "a" : 2, "b" : 2, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fbf80a78af03b5163ca"), "a" : 3, "b" : 3, "c" : 1 }<br/>
+                                 { "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+                                 { "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>
+                                 { "_id" : ObjectId("50b27f7080a78af03b5163cd"), "a" : 3, "b" : 3, "c" : 2 }<br/>
+                                 </code>
+                                 <code>
+                                 db.stuff.aggregate([{$group:<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{_id:<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'moe':'$a', <br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'larry':'$b',<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'curly':'$c'<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+                                 }])<br/>
+                                 </code>
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.4</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 Suppose we have a collection of populations by postal code. The postal codes in are in the _id field, and are therefore unique. Documents look like this:
+                                 <code>
+                                 {<br/>
+                                 &nbsp;&nbsp; "city" : "CLANTON",<br/>
+                                 &nbsp;&nbsp;"loc" : [<br/>
+                                 &nbsp;&nbsp;  &nbsp;&nbsp;   -86.642472,<br/>
+                                 &nbsp;&nbsp;  &nbsp;&nbsp;   32.835532<br/>
+                                 &nbsp;&nbsp; ],<br/>
+                                 &nbsp;&nbsp;"pop" : 13990,<br/>
+                                 &nbsp;&nbsp;"state" : "AL",<br/>
+                                 &nbsp;&nbsp;"_id" : "35045"<br/>
+                                 }
+                                 </code>
+                                 For students outside the United States, there are 50 non-overlapping states in the US with two letter abbreviations such as NY and CA. In addition, the capital of Washington is within an area designated the District of Columbia, and carries the abbreviation DC.<br/><br/> For purposes of the mail, the postal service considers DC to be a "state." So in this dataset, there are 51 states. We call postal codes "zip codes." A city may overlap several zip codes.<br/><br/>
+                                 Write an aggregation query to sum up the population (pop) by state and put the result in a field called population. Don't use a compound _id key (you don't need one)
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.5</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 Suppose we population by zip code (postal code) data that looks like this (putting in a query for the zip codes in Palo Alto)
+                                 <code>
+                                 db.zips.find({state:"CA",city:"PALO ALTO"})<br/>
+                                 { "city" : "PALO ALTO", "loc" : [ -122.149685, 37.444324 ], "pop" : 15965, "state" : "CA", "_id" : "94301" }<br/>
+                                 { "city" : "PALO ALTO", "loc" : [ -122.184234, 37.433424 ], "pop" : 1835, "state" : "CA", "_id" : "94304" }<br/>
+                                 { "city" : "PALO ALTO", "loc" : [ -122.127375, 37.418009 ], "pop" : 24309, "state" : "CA", "_id" : "94306" }<br/>
+                                 </code>
+                                 Write an aggregation query that will return the postal codes that cover each city. The results should look like this:
+                                 <code>
+                                 {<br/>
+                                 &nbsp;&nbsp; "_id" : "CENTREVILLE",<br/>
+                                 &nbsp;&nbsp; "postal_codes" : [<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;   "22020",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;   "49032",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;   "39631",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;   "21617",<br/>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;   "35042"<br/>
+                                 &nbsp;&nbsp; ]<br/>
+                                 }
+                                 </code>
+                                 (ignore the issue that a city may have the same name in two different states and is in fact two different cities in that case - for eg Springfield, MO and Springfield, MA)
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.6</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 <code>
+                                 db.fun.find()<br/>
+                                 { "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
+                                 { "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
+                                 { "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
+                                 { "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
+                                 { "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
+                                 { "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
+                                 { "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
+                                 { "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
+                                 </code>
+                                 And the following aggregation query
+                                 <code>
+                                 db.fun.aggregate([{$group:{_id:{a:"$a", b:"$b"}, c:{$max:"$c"}}}, {$group:{_id:"$_id.a", c:{$min:"$c"}}}])
+                                 </code>
+                                 What values are returned?
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.7</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 <code>
+                                 db.fun.find()<br/>
+                                 { "_id" : 0, "a" : 0, "b" : 0, "c" : 21 }<br/>
+                                 { "_id" : 1, "a" : 0, "b" : 0, "c" : 54 }<br/>
+                                 { "_id" : 2, "a" : 0, "b" : 1, "c" : 52 }<br/>
+                                 { "_id" : 3, "a" : 0, "b" : 1, "c" : 17 }<br/>
+                                 { "_id" : 4, "a" : 1, "b" : 0, "c" : 22 }<br/>
+                                 { "_id" : 5, "a" : 1, "b" : 0, "c" : 5 }<br/>
+                                 { "_id" : 6, "a" : 1, "b" : 1, "c" : 87 }<br/>
+                                 { "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
+                                 </code>
+                                 What would be the value of c in the result from this aggregation query
+                                 <code>
+                                 db.fun.aggregate([<br/>
+                                 &nbsp;&nbsp;    {$match:{a:0}},<br/>
+                                 &nbsp;&nbsp;    {$sort:{c:-1}}, <br/>
+                                 &nbsp;&nbsp;    {$group:{_id:"$a", c:{$first:"$c"}}}<br/>
+                                 ])
+                                 </code>
+                              </div>
+                           </fieldset>
+                        </div>
+                        <div class="container">
+                           <header class="major">
+                              <h3>Exercise 2.8</h3>
+                           </header>
+                           <fieldset>
+                              <div>
+                                 Please calculate the average population of cities in California (abbreviation CA) and New York (NY) (taken together) with populations over 25,000. For this problem, assume that a city name that appears in more than one state represents two separate cities. Please round the answer to a whole number. <br/>
+                                 Different states might have the same city name. <br/>A city might have multiple zip codes.
+                                 <code> 
+                                 mongoimport -d test -c zips --drop small_zips.json
+                                 </code>
+                                 <DIV style="color:white">
+                                    db.zips.aggregate([ {$match: {state: {$in: ['CA', 'NY']}}}, {$group: { _id: {state: "$state", city: "$city"}, pop: {$sum: "$pop"} } }, {$match: {pop: {$gt: 25000}} }, {$group: { _id: null, pop: {$avg: "$pop"} } } ])
+                                 </DIV>
+                              </div>
+                           </fieldset>
+                        </div>
+                     </section>
+                     <section id="writeconcern">
+                        <header class="major">
+                           <h2>Write Concern</h2>
+                        </header>
+                        <div class="container">
+                           <p>From the perspective of a client application, whether a MongoDB instance is running as a single server (i.e. “standalone”) or a replica set is transparent. However, replica sets offer some configuration options for write. 
+                           </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/crud-write-concern-w2.png" alt=""/>
+                           </div>
+                        </div>
+                     </section>
+                     <section id="replicaset">
+                        <header class="major">
+                           <h2>Replica Set</h2>
+                        </header>
+                        <div class="container">
+                           <p>Replication is the process of synchronizing data across multiple servers - Asynchronous Replication.</p>
+                           <code>
+                           mongod --replSet m101 --logpath "1.log" --dbpath /data/rs1 --port 27017 --oplogSize 64 --fork --smallfiles<br/>
+                           mongod --replSet m101 --logpath "2.log" --dbpath /data/rs2 --port 27018 --oplogSize 64 --smallfiles --fork<br/>
+                           mongod --replSet m101 --logpath "3.log" --dbpath /data/rs3 --port 27019 --oplogSize 64 --smallfiles --fork<br/>
+                           </code>
+                           <p>
+                              In some cases, you can use replication to increase read capacity. Clients have the ability to send read and write operations to different servers. You can also maintain copies in different data centers to increase the locality and availability of data for distributed applications.
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/replica-set-read-write-operations-primary.png" alt=""/>
+                           </div>
+                           <p>The replica set can have at most one primary. If the current primary becomes unavailable, an election determines the new primary.   The secondaries replicate the primary’s oplog and apply the operations to their data sets such that the secondaries’ data sets reflect the primary’s data set. If the primary is unavailable, the replica set will elect a secondary to be primary. </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img src="/assets/img/mongopresentation/replica-set-trigger-election.png"/>
+                           </div>
+                           <h3>Election Triggering Events</h3>
+                           <p>
+                              Replica sets hold an election any time there is no primary: 
+                           </p>
+                           <ul>
+                              <li>the initiation of a new replica set</li>
+                              <li>a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary</li>
+                              <li>primary steps down</li>
+                           </ul>
+                           <p>A primary will step down:</p>
+                           <ul>
+                              <li>after receiving the replSetStepDown command</li>
+                              <li>if one of the current secondaries is eligible for election and has a higher priority</li>
+                              <li>if primary cannot contact a majority of the members of the replica set</li>
+                           </ul>
+                           <a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
+                        </div>
+                     </section>
+                     <section id="sharding">
+                        <header class="major">
+                           <h2>Sharding</h2>
+                        </header>
+                        <div class="container">
+                           <p>
+                              Sharding is a method for storing data across multiple machines.
+                           </p>
+                           <p>
+                              MongoDB uses sharding to support deployments with very large data sets and high throughput operations. 
+                              Database systems with large data sets and high throughput applications can challenge the capacity of a single server. 
+                           <ul>
+                              <li>Sharding reduces the number of operations each shard handles</li>
+                              <li>Sharding reduces the amount of data that each server needs to store</li>
+                           </ul>
+                           </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
+                           </div>
+                           <h3>Sharded Cluster Components</h3>
+                           <p>
+                           <ul>
+                              <li>Shards - A shard is a MongoDB instance that holds a subset of a collection’s data. Each shard is either a single mongod instance or a replica set. In production, all shards are replica sets. For more information see Shards.</li>
+                              <li>Config Servers - Each config server is a mongod instance that holds metadata about the cluster. The metadata maps chunks to shards. For more information, see Config Servers.</li>
+                              <li>Routing Instances - Each router is a mongos instance that routes the reads and writes from applications to the shards. Applications do not access the shards directly. For more information see Sharded Cluster Query Routing.</li>
+                           </ul>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/sharded-cluster.png" alt=""/>
+                           </div>
+                           </p>
+                           <div></div>
+                        </div>
+                     </section>
+                     <section id="footer">
+                        <div class="container">
+                           <ul class="copyright">
+                              <li>© Avenue Code. All rights reserved.</li>
+                           </ul>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              padding-left: 180px;
+                              ">
+                              <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
+                           </div>
+                        </div>
+                     </section>
+                  </div>
+               </div>
+               <div id="skel-layers-visibleWrapper" style="position: relative;">
+                  <section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+                     <header>
+                        <h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
+                     </header>
+                     <nav id="nav">
+                        <ul>
+                           <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
+                           <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
+                           <li><a href="/lecture2.html#writeconcern" id="writeconcern-link">Write Concern</a></li>
+                           <li><a href="/lecture2.html#replicaset" id="replicaset-link">Replica Set</a></li>
+                           <li><a href="/lecture2.html#sharding" id="sharding-link">Sharding</a></li>
+                        </ul>
+                        <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
+                     </nav>
+                  </section>
+               </div>
+            </body>
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+            <script>
+               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+               
+               ga('create', 'UA-XXXXX-X');
+               ga('send', 'pageview');
+               
+               
+            </script>
+            <!--[if lt IE 9]>
+            <script src="bower_components/es5-shim/es5-shim.js"></script>
+            <script src="bower_components/json3/lib/json3.min.js"></script>
+            <![endif]-->
+            <!-- build:js({client,node_modules}) app/vendor.js -->
+            <!-- bower:js -->
+            <script src="bower_components/jquery/dist/jquery.js"></script>
+            <script src="bower_components/angular/angular.js"></script>
+            <script src="bower_components/angular-resource/angular-resource.js"></script>
+            <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+            <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+            <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+            <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+            <script src="bower_components/angular-animate/angular-animate.js"></script>
+            <script src="bower_components/angular-aria/angular-aria.js"></script>
+            <script src="bower_components/angular-material/angular-material.js"></script>
+            <!-- endbower -->
+            <!-- endbuild -->
+            <!-- build:js({.tmp,client}) app/app.js -->
+            <!-- endinjector -->
+            <!-- endbuild -->
+            <script>
+               $(document).ready(function(){
+                var selectorNav = '#nav ul li';
+                var menuLink = $(this.location.hash+"-link");
+                if( !menuLink){
+                   menuLink = '#intro-link';
+               }
+               menuLink.addClass('active');
+                $(selectorNav).click(function(){
+                  $(selectorNav).find(' a.active').removeClass('active');
+               $(this).find('a').addClass('active');
+                });
+               
+               });
+               
+               
+            </script>
+            </body>
+         </html>

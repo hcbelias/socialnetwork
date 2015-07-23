@@ -1,0 +1,272 @@
+<!doctype html>
+<!--[if lt IE 7]>      
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+   <![endif]-->
+   <!--[if IE 7]>         
+   <html class="no-js lt-ie9 lt-ie8">
+      <![endif]-->
+      <!--[if IE 8]>         
+      <html class="no-js lt-ie9">
+         <![endif]-->
+         <!--[if gt IE 8]><!--> 
+         <html class="no-js">
+            <!--<![endif]-->
+            <head>
+               <meta charset="utf-8">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge">
+               <base href="/">
+               <title>Avenue Code University: MongoDB/Mongoose</title>
+               <meta name="description" content="ShareMiles">
+               <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+               <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+               <!-- build:css(client) app/vendor.css -->
+               <!-- bower:css -->
+               <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+               <!-- endbower -->
+               <!-- endbuild -->
+               <!-- build:css({.tmp,client}) app/app.css -->
+               <!-- injector:css -->
+               <!-- endinjector -->
+               <!-- endbuild -->
+               <link rel="stylesheet" href="assets/style/main.css" />
+            </head>
+            <body cz-shortcut-listen="true" style="">
+               <div id="wrapper">
+                  <section id="mongoose">
+                     <header class="major">
+                        <h2>Mongoose</h2>
+                     </header>
+                     <div class="container">
+                        <p>
+                           Mongoose is an ODM for Node.js. It has a thriving open source community and includes advanced schema-based features such as async validation, casting, object life-cycle management, pseudo-joins, and rich query builder support.
+                        </p>
+                        <p>
+                           Install it easily with npm:
+                           <code>
+                           npm install mongoose --save
+                           </code>
+                        <div>
+                           <h3>Schema</h3>
+                           <p>
+                              Everything in Mongoose starts with a Schema. Each schema maps to a MongoDB collection and defines the shape of the documents within that collection.
+                           </p>
+                           <code>
+                           var mongoose = require('mongoose');<br/>
+                           var Schema = mongoose.Schema;<br/>
+
+
+var mongoose = require('mongoose');<br/>
+
+mongoose.connect(config.mongo.uri, config.mongo.options);<br/>
+                           <br/>
+                           var UserSchema = new Schema({<br/>
+                           &nbsp;&nbsp;title:  String,<br/>
+                           &nbsp;&nbsp;author: String,<br/>
+                           &nbsp;&nbsp;body:   String,<br/>
+                           &nbsp;&nbsp;comments: [{ body: String, date: Date }],<br/>
+                           &nbsp;&nbsp;date: { type: Date, default: Date.now },<br/>
+                           &nbsp;&nbsp;hidden: Boolean,<br/>
+                           &nbsp;&nbsp;meta: {<br/>
+                           &nbsp;&nbsp; &nbsp;&nbsp;votes:  { type:Number, default: 0 },<br/>
+                           &nbsp;&nbsp; &nbsp;&nbsp;favs:  { type:Number, default: 0 }<br/>
+                           &nbsp;&nbsp;}<br/>
+                           });<br/>
+                           <br/>
+                           // a setter <br/>
+blogSchema.path('<title>  </title>').set(function (v) { <br/>
+  &nbsp;&nbsp;return capitalize(v); <br/>
+}); <br/>
+ <br/>
+// middleware <br/>
+blogSchema.pre('save', function (next) { <br/>
+  &nbsp;&nbsp;notify(this.get('àuthor')); <br/>
+  &nbsp;&nbsp;next(); <br/>
+}); <br/>
+          <br/>
+
+
+
+
+
+blogSchema          <br/>
+     &nbsp;&nbsp;.path('status')          <br/>
+   &nbsp;&nbsp;  .validate(function(value, respond) {          <br/>
+         &nbsp;&nbsp;   &nbsp;&nbsp;var errMessage = 'Friendship Validation - Requested Blocked';          <br/>
+         &nbsp;&nbsp;   &nbsp;&nbsp;console.log(errMessage);                    <br/>
+         &nbsp;&nbsp;   &nbsp;&nbsp;return respond(!this.blockUserRequested);          <br/>
+     &nbsp;&nbsp;}, 'Requested User is Blocked')          <br/>
+     &nbsp;&nbsp;.validate(function(value, respond) {          <br/>
+       &nbsp;&nbsp;   &nbsp;&nbsp;var errMessage = 'Friendship Validation - Requester Blocked';          <br/>
+       &nbsp;&nbsp;   &nbsp;&nbsp;console.log(errMessage);                    <br/>
+       &nbsp;&nbsp;   &nbsp;&nbsp;return respond(!this.blockUserRequester);          <br/>
+     &nbsp;&nbsp;}, 'Requester User is Blocked');          <br/>
+          <br/>
+    
+                            </code>
+                           <code>
+                           var Blog = mongoose.model('Blog', blogSchema);<br/> 
+                           var myblog = new Blog({ title: 'Mongoose Course', author: 'AC'});<br/>
+                           // console.log(myblog.title) - Mongoose Course<br/>
+                           // console.log(Blog.author) - AC
+                           </code>
+                           <ul>
+                              <li> <p>CRUD</p>
+                              </li>
+                              <li>
+                                  <p> Defining methods</p>
+                                  <code>
+                                     Blog.create({ title: 'new title', author: 'my new author'}, function (err, newBlog) {<br/>
+                          &nbsp;&nbsp;if (err) return handleError(err);<br/>
+                          &nbsp;&nbsp;// saved!<br/>
+})<br/>
+<br/>
+
+
+                                  </code>
+                                 <code>
+                               // define a schema<br/>
+                               var animalSchema = new Schema({ name: String, type: String });<br/>
+                               <br/>
+                               // assign a function to the "methods" object of our animalSchema<br/>
+                               // assign a function to the "static" object of animalSchema - static function<br/>
+                               animalSchema.methods.findSimilarTypes = function (cb) {<br/>
+                               &nbsp;&nbsp;return this.model('Animal').find({ type: this.type }, cb);<br/>
+                               }<br/>
+
+                               
+                               <br/><br/>
+                               var Animal = mongoose.model('Animal', animalSchema);<br/>
+                               var dog = new Animal({ type: 'dog' });<br/>
+                               <br/>
+                               dog.findSimilarTypes(function (err, dogs) {<br/>
+                               &nbsp;&nbsp;console.log(dogs); // woof<br/>
+                                    });<br/>
+
+                               
+                               </code>
+
+                               </li>
+                               <li>
+                               <p>Virtuals</p>
+                               <p>Virtuals are document properties that you can get and set but that do not get persisted to MongoDB. The getters are useful for formatting or combining fields, while setters are useful for de-composing a single value into multiple values for storage.</p>
+                               <code>
+                               // define a schema<br/>
+                               var personSchema = new Schema({<br/>
+                               &nbsp;&nbsp;name: {<br/>
+                               &nbsp;&nbsp;&nbsp;&nbsp;first: String,<br/>
+                               &nbsp;&nbsp;&nbsp;&nbsp;last: String<br/>
+                               &nbsp;&nbsp;}<br/>
+                               });<br/>
+                               // compile our model<br/>
+                               var Person = mongoose.model('Person', personSchema);<br/>
+                               // create a document<br/>
+                               var bad = new Person({<br/>
+                               &nbsp;&nbsp;name: { first: 'Walter', last: 'White' }<br/>
+                               });<br/>
+                               <br/>
+                               personSchema.virtual('name.full').get(function () {                            <br/>
+  &nbsp;&nbsp;return this.name.first + ' ' + this.name.last;                            <br/>
+});                            <br/>
+<br/>
+personSchema.virtual('name.full').set(function (name) {<br/>
+  &nbsp;&nbsp;var split = name.split(' ');<br/>
+  &nbsp;&nbsp;this.name.first = split[0];<br/>
+  &nbsp;&nbsp;this.name.last = split[1];<br/>
+});<br/>
+
+                               </code>
+                               </li>
+                           <ul>
+                        </div>
+                        <div style="
+                           margin-left: auto;
+                           margin-right: auto;
+                           width: 500px;
+                           ">
+                           <img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
+                        </div>
+                     </div>
+                  </section>
+                  <section id="footer">
+                     <div class="container">
+                        <ul class="copyright">
+                           <li>© Avenue Code. All rights reserved.</li>
+                        </ul>
+                        <div style="
+                           margin-left: auto;
+                           margin-right: auto;
+                           width: 500px;
+                           padding-left: 180px;
+                           ">
+                           <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
+                        </div>
+                     </div>
+                  </section>
+               </div>
+               </div>
+               <div id="skel-layers-visibleWrapper" style="position: relative;">
+                  <section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+                     <header>
+                        <h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
+                     </header>
+                     <nav id="nav">
+                        <ul>
+                           <li><a href="/lecture3.html#mongoose" id="mongoose-link">Mongoose</a></li>
+                        </ul>
+                        <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
+                     </nav>
+                  </section>
+               </div>
+            </body>
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+            <script>
+               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+               
+               ga('create', 'UA-XXXXX-X');
+               ga('send', 'pageview');
+               
+               
+            </script>
+            <!--[if lt IE 9]>
+            <script src="bower_components/es5-shim/es5-shim.js"></script>
+            <script src="bower_components/json3/lib/json3.min.js"></script>
+            <![endif]-->
+            <!-- build:js({client,node_modules}) app/vendor.js -->
+            <!-- bower:js -->
+            <script src="bower_components/jquery/dist/jquery.js"></script>
+            <script src="bower_components/angular/angular.js"></script>
+            <script src="bower_components/angular-resource/angular-resource.js"></script>
+            <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+            <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+            <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+            <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+            <script src="bower_components/angular-animate/angular-animate.js"></script>
+            <script src="bower_components/angular-aria/angular-aria.js"></script>
+            <script src="bower_components/angular-material/angular-material.js"></script>
+            <!-- endbower -->
+            <!-- endbuild -->
+            <!-- build:js({.tmp,client}) app/app.js -->
+            <!-- endinjector -->
+            <!-- endbuild -->
+            <script>
+               $(document).ready(function(){
+                var selectorNav = '#nav ul li';
+                var menuLink = $(this.location.hash+"-link");
+                if( !menuLink){
+                   menuLink = '#intro-link';
+               }
+               menuLink.addClass('active');
+                $(selectorNav).click(function(){
+                  $(selectorNav).find(' a.active').removeClass('active');
+               $(this).find('a').addClass('active');
+                });
+               
+               });
+               
+               
+            </script>
+            </body>
+         </html>
