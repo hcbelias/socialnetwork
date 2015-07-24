@@ -60,89 +60,121 @@ var mongoose = require('mongoose');<br/>
 mongoose.connect(config.mongo.uri, config.mongo.options);<br/>
                            <br/>
                            var UserSchema = new Schema({<br/>
-                           &nbsp;&nbsp;title:  String,<br/>
-                           &nbsp;&nbsp;author: String,<br/>
-                           &nbsp;&nbsp;body:   String,<br/>
-                           &nbsp;&nbsp;comments: [{ body: String, date: Date }],<br/>
-                           &nbsp;&nbsp;date: { type: Date, default: Date.now },<br/>
-                           &nbsp;&nbsp;hidden: Boolean,<br/>
-                           &nbsp;&nbsp;meta: {<br/>
-                           &nbsp;&nbsp; &nbsp;&nbsp;votes:  { type:Number, default: 0 },<br/>
-                           &nbsp;&nbsp; &nbsp;&nbsp;favs:  { type:Number, default: 0 }<br/>
-                           &nbsp;&nbsp;}<br/>
+                         &nbsp;&nbsp;  name: String,<br/>
+  &nbsp;&nbsp;email: { type: String, lowercase: true }, // _id: { type: String, lowercase: true } <br/> 
+  &nbsp;&nbsp;role: {<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;type: String,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;default: 'user'<br/>
+  &nbsp;&nbsp;},<br/>
+  &nbsp;&nbsp;password: String,<br/>
                            });<br/>
                            <br/>
                            // a setter <br/>
-blogSchema.path('<title>  </title>').set(function (v) { <br/>
+UserSchema.path('title').set(function (v) { <br/>
   &nbsp;&nbsp;return capitalize(v); <br/>
 }); <br/>
  <br/>
 // middleware <br/>
-blogSchema.pre('save', function (next) { <br/>
+UserSchema.pre('save', function (next) { <br/>
   &nbsp;&nbsp;notify(this.get('àuthor')); <br/>
   &nbsp;&nbsp;next(); <br/>
 }); <br/>
           <br/>
+</code>
 
-
-
-
-
-blogSchema          <br/>
-     &nbsp;&nbsp;.path('status')          <br/>
-   &nbsp;&nbsp;  .validate(function(value, respond) {          <br/>
-         &nbsp;&nbsp;   &nbsp;&nbsp;var errMessage = 'Friendship Validation - Requested Blocked';          <br/>
-         &nbsp;&nbsp;   &nbsp;&nbsp;console.log(errMessage);                    <br/>
-         &nbsp;&nbsp;   &nbsp;&nbsp;return respond(!this.blockUserRequested);          <br/>
-     &nbsp;&nbsp;}, 'Requested User is Blocked')          <br/>
-     &nbsp;&nbsp;.validate(function(value, respond) {          <br/>
-       &nbsp;&nbsp;   &nbsp;&nbsp;var errMessage = 'Friendship Validation - Requester Blocked';          <br/>
-       &nbsp;&nbsp;   &nbsp;&nbsp;console.log(errMessage);                    <br/>
-       &nbsp;&nbsp;   &nbsp;&nbsp;return respond(!this.blockUserRequester);          <br/>
-     &nbsp;&nbsp;}, 'Requester User is Blocked');          <br/>
-          <br/>
-    
-                            </code>
                            <code>
-                           var Blog = mongoose.model('Blog', blogSchema);<br/> 
-                           var myblog = new Blog({ title: 'Mongoose Course', author: 'AC'});<br/>
-                           // console.log(myblog.title) - Mongoose Course<br/>
-                           // console.log(Blog.author) - AC
+                           var User = mongoose.model('User', UserSchema);<br/> 
+                           var user = new User({ email: 'mongoose@avenuecode.com', name: 'Mongoose'});<br/>
+                           // console.log(user.email) - mongoose@avenuecode.com<br/>
+                           // console.log(user.name) - MongooseC
                            </code>
                            <ul>
-                              <li> <p>CRUD</p>
-                              </li>
-                              <li>
-                                  <p> Defining methods</p>
-                                  <code>
-                                     Blog.create({ title: 'new title', author: 'my new author'}, function (err, newBlog) {<br/>
+                            <li> <p>Validation</p>
+                            <code>
+
+
+//Validate empty name <br/>
+UserSchema <br/>
+&nbsp;&nbsp;    .path('name') <br/>
+&nbsp;&nbsp;    .validate(function(name){ <br/>
+&nbsp;&nbsp;      if(name) { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;        return true; <br/>
+&nbsp;&nbsp;      } <br/>
+&nbsp;&nbsp;      return false; <br/>
+    &nbsp;&nbsp;}, 'Name cannot be blank'); <br/>
+ <br/>
+// Validate empty email <br/>
+UserSchema <br/>
+&nbsp;&nbsp;  .path('email') <br/>
+&nbsp;&nbsp;  .validate(function(email) { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;    return email.length > 0; <br/>
+&nbsp;&nbsp;  }, 'Email cannot be blank'); <br/>
+ <br/>
+// Validate empty password <br/>
+UserSchema <br/>
+  &nbsp;&nbsp;.path('password') <br/>
+  &nbsp;&nbsp;.validate(function(password) { <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;return password.length; <br/>
+  &nbsp;&nbsp;}, 'Password cannot be blank'); <br/>
+ <br/>
+// Validate email is not taken <br/>
+UserSchema <br/>
+&nbsp;&nbsp;  .path('email') <br/>
+&nbsp;&nbsp;  .validate(function(value, respond) { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;    var self = this; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;    this.constructor.findOne({email: value}, function(err, user) { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;      if(err) throw err; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;      if(user) { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        if(self.id === user.id) return respond(true); <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return respond(false); <br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;  respond(true); <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;}); <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}, 'The specified email address is already in use.'); <br/>
+
+
+
+
+
+                            </code>
+                            </li>
+                              <li> <p>CRUD: find, findOne, findById, findOneAndUpdate, findOneAndRemove</p>
+  <code>
+                                     User.create({ email: 'eric.clapton@avenuecode.com', name: 'eric'}, function (err, newUser) {<br/>
                           &nbsp;&nbsp;if (err) return handleError(err);<br/>
                           &nbsp;&nbsp;// saved!<br/>
 })<br/>
+
+
 <br/>
 
+var Tank = mongoose.model('Tank', yourSchema);<br/>
+<br/>
+var small = new Tank({ size: 'small' });<br/>
+small.save(function (err) {<br/>
+  &nbsp;&nbsp;if (err) return handleError(err);<br/>
+  &nbsp;&nbsp;// saved!<br/>
+})<br/>
+<br/>
+// or<br/>
+<br/>
+Tank.create({ size: 'small' }, function (err, small) {<br/>
+  &nbsp;&nbsp;if (err) return handleError(err);<br/>
+  &nbsp;&nbsp;// saved!<br/>
+})<br/>
 
                                   </code>
-                                 <code>
-                               // define a schema<br/>
-                               var animalSchema = new Schema({ name: String, type: String });<br/>
-                               <br/>
-                               // assign a function to the "methods" object of our animalSchema<br/>
-                               // assign a function to the "static" object of animalSchema - static function<br/>
-                               animalSchema.methods.findSimilarTypes = function (cb) {<br/>
-                               &nbsp;&nbsp;return this.model('Animal').find({ type: this.type }, cb);<br/>
+                                                            </li>
+                              <li>
+                                  <p> Defining methods</p>
+
+                               <code>
+                               // assign a function to the "methods" object of our schema<br/>
+                               // assign a function to the "static" object of schema - static function<br/>
+                               UserSchema.methods.findUserByNameAndEmail = function (cb) {<br/>
+                               &nbsp;&nbsp;return this.model('User').find({ name: this.name, email: this.email }, cb);<br/>
                                }<br/>
 
-                               
-                               <br/><br/>
-                               var Animal = mongoose.model('Animal', animalSchema);<br/>
-                               var dog = new Animal({ type: 'dog' });<br/>
-                               <br/>
-                               dog.findSimilarTypes(function (err, dogs) {<br/>
-                               &nbsp;&nbsp;console.log(dogs); // woof<br/>
-                                    });<br/>
-
-                               
                                </code>
 
                                </li>
@@ -178,13 +210,7 @@ personSchema.virtual('name.full').set(function (name) {<br/>
                                </li>
                            <ul>
                         </div>
-                        <div style="
-                           margin-left: auto;
-                           margin-right: auto;
-                           width: 500px;
-                           ">
-                           <img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
-                        </div>
+                       
                      </div>
                   </section>
                   <section id="footer">
