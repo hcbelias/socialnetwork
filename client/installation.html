@@ -1,0 +1,177 @@
+<!doctype html>
+<!--[if lt IE 7]>      
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+   <![endif]-->
+   <!--[if IE 7]>         
+   <html class="no-js lt-ie9 lt-ie8">
+      <![endif]-->
+      <!--[if IE 8]>         
+      <html class="no-js lt-ie9">
+         <![endif]-->
+         <!--[if gt IE 8]><!--> 
+         <html class="no-js">
+            <!--<![endif]-->
+            <head>
+               <meta charset="utf-8">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge">
+               <base href="/">
+               <title>Avenue Code University: MongoDB/Mongoose</title>
+               <meta name="description" content="ShareMiles">
+               <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+               <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+               <!-- build:css(client) app/vendor.css -->
+               <!-- bower:css -->
+               <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+               <!-- endbower -->
+               <!-- endbuild -->
+               <!-- build:css({.tmp,client}) app/app.css -->
+               <!-- injector:css -->
+               <!-- endinjector -->
+               <!-- endbuild -->
+               <link rel="stylesheet" href="assets/style/main.css" />
+            </head>
+            <body cz-shortcut-listen="true" style="">
+               <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
+                  <div id="wrapper">
+                     <!-- Header -->
+                     <div id="main">
+                        
+                        <section id="install">
+                           <header class="major">
+                              <h2>Installation</h2>
+                           </header>
+                           <div class="container">
+                              <header class="major">
+                                 <p>How Install MongoDB?(Windows)</p>
+                              </header>
+                              <div class="description">
+                                 <ul>
+                                    <li>
+                                       <a href="https://www.mongodb.org/downloads">mongodb.org/downloads</a>
+                                    </li>
+                                    <li>
+                                       <a href="https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/">https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/</a>
+                                    </li>
+                                    <li>
+                                       Execute Installer
+                                    </li>
+                                    <li>
+                                       Create Default DB Path - "C:/Data/db"
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <br/>
+                           <br/>
+                           <div class="container">
+                              <header class="major">
+                                 <p>How Install MongoDB?(Mac)</p>
+                              </header>
+                              <div class="description">
+                                 <header class="medium">
+                                    <p>Using Homebrew</p>
+                                 </header>
+                                 <ul>
+                                    <li>
+                                       Update Homebrew’s package database
+                                       <code>brew update</code>
+                                    </li>
+                                    <li>
+                                       Install MongoDB
+                                       <code>brew install mongodb</code>
+                                    </li>
+                                    <li>
+                                       Create Default DB Path - "/data/db"
+                                    </li>
+                                 </ul> <br/>
+                           <br/>
+                                 <header class="major">
+                                    <p>How Install MongoDB?(Manually/Linux)</p>
+                                 </header>
+                                 <ul>
+                                    <li>
+                                       <a href="https://www.mongodb.org/downloads">mongodb.org/downloads</a>
+                                    </li>
+                                    <li>
+                                       <a href="https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/">https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/</a>
+                                    </li>
+                                    <li>
+                                       Extract the files from the downloaded archive
+                                       <code>tar -zxvf mongodb-osx-x86_64-3.0.4.tgz</code>
+                                    </li>
+                                    <li>
+                                       Copy the extracted archive to the target directory
+                                       <code>mkdir -p mongodb
+                                       cp -R -n mongodb-osx-x86_64-3.0.4/ mongodb</code>
+                                    </li>
+                                    <li>
+                                       Ensure the location of the binaries is in the PATH variable
+                                       <code>export PATH=(mongodb-install-directory)/bin:$PATH</code>
+                                    </li>
+                                    <li>
+                                       Create Default DB Path - "/data/db"
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </section> <ul class="copyright">
+                              <li>© Avenue Code. All rights reserved.</li>
+                           </ul>
+                     </div>
+                     
+                  </div>
+               </div>
+             
+            </body>
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+            <script>
+               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+               
+               ga('create', 'UA-XXXXX-X');
+               ga('send', 'pageview');
+               
+               
+            </script>
+            <!--[if lt IE 9]>
+            <script src="bower_components/es5-shim/es5-shim.js"></script>
+            <script src="bower_components/json3/lib/json3.min.js"></script>
+            <![endif]-->
+            <!-- build:js({client,node_modules}) app/vendor.js -->
+            <!-- bower:js -->
+            <script src="bower_components/jquery/dist/jquery.js"></script>
+            <script src="bower_components/angular/angular.js"></script>
+            <script src="bower_components/angular-resource/angular-resource.js"></script>
+            <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+            <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+            <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+            <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+            <script src="bower_components/angular-animate/angular-animate.js"></script>
+            <script src="bower_components/angular-aria/angular-aria.js"></script>
+            <script src="bower_components/angular-material/angular-material.js"></script>
+            <!-- endbower -->
+            <!-- endbuild -->
+            <!-- build:js({.tmp,client}) app/app.js -->
+            <!-- endinjector -->
+            <!-- endbuild -->
+            <script>
+               $(document).ready(function(){
+               	var selectorNav = '#nav ul li';
+               	var menuLink = $(this.location.hash+"-link");
+               	if( !menuLink){
+               		 menuLink = '#intro-link';
+               }
+               menuLink.addClass('active');
+               	$(selectorNav).click(function(){
+               		$(selectorNav).find(' a.active').removeClass('active');
+               $(this).find('a').addClass('active');
+               	});
+               
+               });
+               
+               
+            </script>
+            </body>
+         </html>

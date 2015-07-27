@@ -138,30 +138,43 @@ UserSchema <br/>
 
                             </code>
                             </li>
-                              <li> <p>CRUD: find, findOne, findById, findOneAndUpdate, findOneAndRemove</p>
+                              <li> <p>CRUD</p>
   <code>
-                                     User.create({ email: 'eric.clapton@avenuecode.com', name: 'eric'}, function (err, newUser) {<br/>
-                          &nbsp;&nbsp;if (err) return handleError(err);<br/>
-                          &nbsp;&nbsp;// saved!<br/>
-})<br/>
+                          
 
 
 <br/>
 
-var Tank = mongoose.model('Tank', yourSchema);<br/>
+var User = mongoose.model('User', UserSchema);<br/>
 <br/>
-var small = new Tank({ size: 'small' });<br/>
-small.save(function (err) {<br/>
+var clapton = new User({ email: 'eric.clapton@avenuecode.com', name: 'eric');<br/>
+clapton.save(function (err) {<br/>
   &nbsp;&nbsp;if (err) return handleError(err);<br/>
   &nbsp;&nbsp;// saved!<br/>
 })<br/>
 <br/>
 // or<br/>
-<br/>
-Tank.create({ size: 'small' }, function (err, small) {<br/>
-  &nbsp;&nbsp;if (err) return handleError(err);<br/>
-  &nbsp;&nbsp;// saved!<br/>
+<br/>           User.create({ email: 'eric.clapton@avenuecode.com', name: 'eric'}, function (err, newUser) {<br/>
+                          &nbsp;&nbsp;if (err) return handleError(err);<br/>
+                          &nbsp;&nbsp;// saved!<br/>
 })<br/>
+</code>
+
+
+<code>
+ var User = mongoose.model('User', UserSchema);<br/>
+ <br/>
+ User.findById(id, function(error, data){  ... }); <br/>
+<br/>
+ User.find({}}, function(error, data){  ... }); <br/>
+<br/>
+  User.findOneAndUpdate({ '_id': userData._id, 'password': userData.oldPassword },<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                { $set: { password: userData.newPassword } },<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   { 'new': true },<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           function(error, data){  ... });<br/>
+
+<br/>
+User.findOneAndRemove(userId,  function(error, data){  ... }); <br/>
 
                                   </code>
                                                             </li>
@@ -213,6 +226,56 @@ personSchema.virtual('name.full').set(function (name) {<br/>
                        
                      </div>
                   </section>
+
+                  <section id="appexercice">
+                     <div class="container">
+                       <header class="major">
+                          <h2>Social Network App</h2>
+                       </header>
+                       <div class="container">
+                       <p>
+                         We need to build the persistence layer for our social network app.
+                         <ul>
+                          <li>UserDAO
+
+                          <ul>
+                            
+                            <li> this.getUser = function(id, successCB, failCB)){ ... } </li>
+                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
+                            <li> this.searchUsersByName = function(query, successCB, failCB){ ... } </li>
+                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
+                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
+                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
+                            <li> this.getUserByEmailAndPassword = function(userData, successCB, failCB) { ... }</li>
+                            <li> this.changePassword = function(userData, successCB, failCB) { ... }</li>
+                            <li> this.createUser = function(userData, successCB, failCB){ ... }</li>
+                            <li> this.deleteUser = function(userId, successCB, failCB) { ... } </li>
+
+                          </ul>
+
+
+
+                          </li>
+                          <li>FriendshipDAO
+
+                          <ul>
+                            
+                            <li> this.getFriendship = function(userId, friendId, successCB, failCB) { ... } </li>
+                            <li> this.listAllFriendships = function(successCB, failCB){ ... } </li>
+                            <li> this.listAllMyFriendships = function(userId, successCB, failCB){ ... } </li>
+                            <li> this.updateFriendshipStatus = function(userId, friendId, status, successCB, failCB){ ... } </li>
+                            <li> this.updateFriendshipBlockStatus = function(userId, friendId, block, successCB, failCB){ ... } </li>
+                            <li> this.updateFriendshipVipStatus = function(userId, friendId, vip,successCB, failCB){ ... } </li>
+                            <li> this.updateFriendship = function(userId, friendId, status, successCB, failCB){ ... }</li>
+                            <li>  this.createFriendship = function(userId, friendId, successCB, failCB) { ... }</li>
+                          </ul>
+                          </li>
+                         </ul>
+
+                       </p>
+                     </div>
+                     </div>
+                  </section>
                   <section id="footer">
                      <div class="container">
                         <ul class="copyright">
@@ -233,11 +296,12 @@ personSchema.virtual('name.full').set(function (name) {<br/>
                <div id="skel-layers-visibleWrapper" style="position: relative;">
                   <section id="header" class="skel-layers-fixed" style="backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
                      <header>
-                        <h1 id="logo"><a href="#">MongoDB/Mongoose</a></h1>
+                        <h1 id="logo"><a href="/lecture3.html#mongoose">MongoDB/Mongoose</a></h1>                        
                      </header>
                      <nav id="nav">
                         <ul>
-                           <li><a href="/lecture3.html#mongoose" id="mongoose-link">Mongoose</a></li>
+                           <li><a  href="/lecture3.html#mongoose">Mongoose</a></li>
+                           <li><a href="/lecture3.html#appexercice">Social Network App</a></li>
                         </ul>
                         <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
                      </nav>
