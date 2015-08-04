@@ -33,6 +33,109 @@
             <body cz-shortcut-listen="true" style="">
                <div id="skel-layers-wrapper" style="position: relative; left: 0px; right: 0px; top: 0px; backface-visibility: hidden; transition: -webkit-transform 0.5s ease, opacity 0.5s ease; -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;">
                   <div id="wrapper">
+                  <section id="writeconcern">
+                        <header class="major">
+                           <h2>Write Concern</h2>
+                        </header>
+                        <div class="container">
+                           <p>From the perspective of a client application, whether a MongoDB instance is running as a single server (i.e. “standalone”) or a replica set is transparent. However, replica sets offer some configuration options for write. 
+                           </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/crud-write-concern-w2.png" alt=""/>
+                           </div>
+                        </div>
+                     </section>
+                     <section id="replicaset">
+                        <header class="major">
+                           <h2>Replica Set</h2>
+                        </header>
+                        <div class="container">
+                           <p>Replication is the process of synchronizing data across multiple servers - Asynchronous Replication.</p>
+                           <code>
+                           mongod --replSet m101 --logpath "1.log" --dbpath /data/rs1 --port 27017 --oplogSize 64 --fork --smallfiles<br/>
+                           mongod --replSet m101 --logpath "2.log" --dbpath /data/rs2 --port 27018 --oplogSize 64 --smallfiles --fork<br/>
+                           mongod --replSet m101 --logpath "3.log" --dbpath /data/rs3 --port 27019 --oplogSize 64 --smallfiles --fork<br/>
+                           </code>
+                           <p>
+                              In some cases, you can use replication to increase read capacity. Clients have the ability to send read and write operations to different servers. You can also maintain copies in different data centers to increase the locality and availability of data for distributed applications.
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/replica-set-read-write-operations-primary.png" alt=""/>
+                           </div>
+                           <p>The replica set can have at most one primary. If the current primary becomes unavailable, an election determines the new primary.   The secondaries replicate the primary’s oplog and apply the operations to their data sets such that the secondaries’ data sets reflect the primary’s data set. If the primary is unavailable, the replica set will elect a secondary to be primary. </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img src="/assets/img/mongopresentation/replica-set-trigger-election.png"/>
+                           </div>
+                           <h3>Election Triggering Events</h3>
+                           <p>
+                              Replica sets hold an election any time there is no primary: 
+                           </p>
+                           <ul>
+                              <li>the initiation of a new replica set</li>
+                              <li>a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary</li>
+                              <li>primary steps down</li>
+                           </ul>
+                           <p>A primary will step down:</p>
+                           <ul>
+                              <li>after receiving the replSetStepDown command</li>
+                              <li>if one of the current secondaries is eligible for election and has a higher priority</li>
+                              <li>if primary cannot contact a majority of the members of the replica set</li>
+                           </ul>
+                           <a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
+                        </div>
+                     </section>
+                     <section id="sharding">
+                        <header class="major">
+                           <h2>Sharding</h2>
+                        </header>
+                        <div class="container">
+                           <p>
+                              Sharding is a method for storing data across multiple machines.
+                           </p>
+                           <p>
+                              MongoDB uses sharding to support deployments with very large data sets and high throughput operations. 
+                              Database systems with large data sets and high throughput applications can challenge the capacity of a single server. 
+                           <ul>
+                              <li>Sharding reduces the number of operations each shard handles</li>
+                              <li>Sharding reduces the amount of data that each server needs to store</li>
+                           </ul>
+                           </p>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
+                           </div>
+                           <h3>Sharded Cluster Components</h3>
+                           <p>
+                           <ul>
+                              <li>Shards - A shard is a MongoDB instance that holds a subset of a collection’s data. Each shard is either a single mongod instance or a replica set. In production, all shards are replica sets. For more information see Shards.</li>
+                              <li>Config Servers - Each config server is a mongod instance that holds metadata about the cluster. The metadata maps chunks to shards. For more information, see Config Servers.</li>
+                              <li>Routing Instances - Each router is a mongos instance that routes the reads and writes from applications to the shards. Applications do not access the shards directly. For more information see Sharded Cluster Query Routing.</li>
+                           </ul>
+                           <div style="
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: 500px;
+                              ">
+                              <img  src="/assets/img/mongopresentation/sharded-cluster.png" alt=""/>
+                           </div>
+                           </p>
+                           <div></div>
+                        </div>
+                     </section>
                      <section id="aggregation">
                         <header class="major">
                            <h2>Aggregation</h2>
@@ -167,12 +270,12 @@
                                  }
                                  </code>
                               </div>
-                              <code>
+                              <code class="hide">
                               db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
                               </code>
                            </fieldset>
                         </div>
-                        <div class="container">
+                        <div class="container hide">
                            <header class="major">
                               <h3>Exercise 2.2</h3>
                            </header>
@@ -191,7 +294,7 @@
                               </div>
                            </fieldset>
                         </div>
-                        <div class="container">
+                        <div class="container hide">
                            <header class="major">
                               <h3>Exercise 2.3</h3>
                            </header>
@@ -223,7 +326,7 @@
                         </div>
                         <div class="container">
                            <header class="major">
-                              <h3>Exercise 2.4</h3>
+                              <h3>Exercise 2.2</h3>
                            </header>
                            <fieldset>
                               <div>
@@ -247,7 +350,7 @@
                         </div>
                         <div class="container">
                            <header class="major">
-                              <h3>Exercise 2.5</h3>
+                              <h3>Exercise 2.3</h3>
                            </header>
                            <fieldset>
                               <div>
@@ -277,7 +380,7 @@
                         </div>
                         <div class="container">
                            <header class="major">
-                              <h3>Exercise 2.6</h3>
+                              <h3>Exercise 2.4</h3>
                            </header>
                            <fieldset>
                               <div>
@@ -293,7 +396,7 @@
                                  { "_id" : 7, "a" : 1, "b" : 1, "c" : 97 }<br/>
                                  </code>
                                  And the following aggregation query
-                                 <code>
+                                 <code >
                                  db.fun.aggregate([{$group:{_id:{a:"$a", b:"$b"}, c:{$max:"$c"}}}, {$group:{_id:"$_id.a", c:{$min:"$c"}}}])
                                  </code>
                                  What values are returned?
@@ -302,7 +405,7 @@
                         </div>
                         <div class="container">
                            <header class="major">
-                              <h3>Exercise 2.7</h3>
+                              <h3>Exercise 2.5</h3>
                            </header>
                            <fieldset>
                               <div>
@@ -330,7 +433,7 @@
                         </div>
                         <div class="container">
                            <header class="major">
-                              <h3>Exercise 2.8</h3>
+                              <h3>Exercise 2.6</h3>
                            </header>
                            <fieldset>
                               <div>
@@ -339,116 +442,14 @@
                                  <code> 
                                  mongoimport -d test -c zips --drop small_zips.json
                                  </code>
-                                 <DIV style="color:white">
+                                 <DIV style="color:white" class="hide">
                                     db.zips.aggregate([ {$match: {state: {$in: ['CA', 'NY']}}}, {$group: { _id: {state: "$state", city: "$city"}, pop: {$sum: "$pop"} } }, {$match: {pop: {$gt: 25000}} }, {$group: { _id: null, pop: {$avg: "$pop"} } } ])
                                  </DIV>
                               </div>
                            </fieldset>
                         </div>
                      </section>
-                     <section id="writeconcern">
-                        <header class="major">
-                           <h2>Write Concern</h2>
-                        </header>
-                        <div class="container">
-                           <p>From the perspective of a client application, whether a MongoDB instance is running as a single server (i.e. “standalone”) or a replica set is transparent. However, replica sets offer some configuration options for write. 
-                           </p>
-                           <div style="
-                              margin-left: auto;
-                              margin-right: auto;
-                              width: 500px;
-                              ">
-                              <img  src="/assets/img/mongopresentation/crud-write-concern-w2.png" alt=""/>
-                           </div>
-                        </div>
-                     </section>
-                     <section id="replicaset">
-                        <header class="major">
-                           <h2>Replica Set</h2>
-                        </header>
-                        <div class="container">
-                           <p>Replication is the process of synchronizing data across multiple servers - Asynchronous Replication.</p>
-                           <code>
-                           mongod --replSet m101 --logpath "1.log" --dbpath /data/rs1 --port 27017 --oplogSize 64 --fork --smallfiles<br/>
-                           mongod --replSet m101 --logpath "2.log" --dbpath /data/rs2 --port 27018 --oplogSize 64 --smallfiles --fork<br/>
-                           mongod --replSet m101 --logpath "3.log" --dbpath /data/rs3 --port 27019 --oplogSize 64 --smallfiles --fork<br/>
-                           </code>
-                           <p>
-                              In some cases, you can use replication to increase read capacity. Clients have the ability to send read and write operations to different servers. You can also maintain copies in different data centers to increase the locality and availability of data for distributed applications.
-                           <div style="
-                              margin-left: auto;
-                              margin-right: auto;
-                              width: 500px;
-                              ">
-                              <img  src="/assets/img/mongopresentation/replica-set-read-write-operations-primary.png" alt=""/>
-                           </div>
-                           <p>The replica set can have at most one primary. If the current primary becomes unavailable, an election determines the new primary.   The secondaries replicate the primary’s oplog and apply the operations to their data sets such that the secondaries’ data sets reflect the primary’s data set. If the primary is unavailable, the replica set will elect a secondary to be primary. </p>
-                           <div style="
-                              margin-left: auto;
-                              margin-right: auto;
-                              width: 500px;
-                              ">
-                              <img src="/assets/img/mongopresentation/replica-set-trigger-election.png"/>
-                           </div>
-                           <h3>Election Triggering Events</h3>
-                           <p>
-                              Replica sets hold an election any time there is no primary: 
-                           </p>
-                           <ul>
-                              <li>the initiation of a new replica set</li>
-                              <li>a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary</li>
-                              <li>primary steps down</li>
-                           </ul>
-                           <p>A primary will step down:</p>
-                           <ul>
-                              <li>after receiving the replSetStepDown command</li>
-                              <li>if one of the current secondaries is eligible for election and has a higher priority</li>
-                              <li>if primary cannot contact a majority of the members of the replica set</li>
-                           </ul>
-                           <a href="http://docs.mongodb.org/manual/reference/replication/"> Replica Set API</a>
-                        </div>
-                     </section>
-                     <section id="sharding">
-                        <header class="major">
-                           <h2>Sharding</h2>
-                        </header>
-                        <div class="container">
-                           <p>
-                              Sharding is a method for storing data across multiple machines.
-                           </p>
-                           <p>
-                              MongoDB uses sharding to support deployments with very large data sets and high throughput operations. 
-                              Database systems with large data sets and high throughput applications can challenge the capacity of a single server. 
-                           <ul>
-                              <li>Sharding reduces the number of operations each shard handles</li>
-                              <li>Sharding reduces the amount of data that each server needs to store</li>
-                           </ul>
-                           </p>
-                           <div style="
-                              margin-left: auto;
-                              margin-right: auto;
-                              width: 500px;
-                              ">
-                              <img  src="/assets/img/mongopresentation/sharded-collection.png" alt=""/>
-                           </div>
-                           <h3>Sharded Cluster Components</h3>
-                           <p>
-                           <ul>
-                              <li>Shards - A shard is a MongoDB instance that holds a subset of a collection’s data. Each shard is either a single mongod instance or a replica set. In production, all shards are replica sets. For more information see Shards.</li>
-                              <li>Config Servers - Each config server is a mongod instance that holds metadata about the cluster. The metadata maps chunks to shards. For more information, see Config Servers.</li>
-                              <li>Routing Instances - Each router is a mongos instance that routes the reads and writes from applications to the shards. Applications do not access the shards directly. For more information see Sharded Cluster Query Routing.</li>
-                           </ul>
-                           <div style="
-                              margin-left: auto;
-                              margin-right: auto;
-                              width: 500px;
-                              ">
-                              <img  src="/assets/img/mongopresentation/sharded-cluster.png" alt=""/>
-                           </div>
-                           </p>
-                           <div></div>
-                        </div>
-                     </section>
+                     
                      <section id="footer">
                         <div class="container">
                            <ul class="copyright">
@@ -473,11 +474,11 @@
                      </header>
                      <nav id="nav">
                         <ul>
-                           <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
-                           <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
                            <li><a href="/lecture2.html#writeconcern" id="writeconcern-link">Write Concern</a></li>
                            <li><a href="/lecture2.html#replicaset" id="replicaset-link">Replica Set</a></li>
                            <li><a href="/lecture2.html#sharding" id="sharding-link">Sharding</a></li>
+                           <li><a href="/lecture2.html#aggregation" id="aggregation-link">Aggregation</a></li>
+                           <li><a href="/lecture2.html#exercices2" id="exercises2-link">Exercices</a></li>
                         </ul>
                         <img src="http://www.avenuecode.com/wp-content/themes/ac-site/images/white-logo.png" alt="">
                      </nav>
