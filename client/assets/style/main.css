@@ -1103,4 +1103,6 @@
 	margin-right: auto;
 	display: block;
   }
-  
+  .hide{
+    display: none;
+  }
