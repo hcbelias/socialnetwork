@@ -168,7 +168,7 @@
                                  </code>
                               </div>
                               <code>
-                              db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}])
+                              <!--  db.products.aggregate([{$group:{ _id: '$category', num_products: {$sum: 1}}}]) -->
                               </code>
                            </fieldset>
                         </div>
@@ -187,7 +187,10 @@
                                  { "_id" : ObjectId("50b26fcd80a78af03b5163cb"), "a" : 3, "b" : 3, "c" : 2 }<br/>
                                  { "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/> 
                                  </code>
-                                 <code> db.stuff.aggregate([{$group:{_id:'$c'}}])</code>
+                                 Please group by column 'c'.
+                                 <code>
+                                 <!-- db.stuff.aggregate([{$group:{_id:'$c'}}]) -->
+                                 </code>
                               </div>
                            </fieldset>
                         </div>
@@ -207,7 +210,7 @@
                                  { "_id" : ObjectId("50b26fd380a78af03b5163cc"), "a" : 3, "b" : 5, "c" : 3 }<br/>
                                  { "_id" : ObjectId("50b27f7080a78af03b5163cd"), "a" : 3, "b" : 3, "c" : 2 }<br/>
                                  </code>
-                                 <code>
+            <!--                     <code>
                                  db.stuff.aggregate([{$group:<br/>
                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{_id:<br/>
                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -218,6 +221,9 @@
                                  &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
                                  }])<br/>
                                  </code>
+
+                                 -->
+
                               </div>
                            </fieldset>
                         </div>
@@ -240,7 +246,7 @@
                                  &nbsp;&nbsp;"_id" : "35045"<br/>
                                  }
                                  </code>
-                                 For students outside the United States, there are 50 non-overlapping states in the US with two letter abbreviations such as NY and CA. In addition, the capital of Washington is within an area designated the District of Columbia, and carries the abbreviation DC.<br/><br/> For purposes of the mail, the postal service considers DC to be a "state." So in this dataset, there are 51 states. We call postal codes "zip codes." A city may overlap several zip codes.<br/><br/>
+                                 For students outside the United States, there are 50 non-overlapping states in the US with two letter abbreviations such as NY and CA. In addition, the capital of Washington is within an area designated the District of Columbia, and carries the abbreviation DC.<br/><br/> For purposes of the mail, the postal service considers DC to be a "state." <br/><br/>
                                  Write an aggregation query to sum up the population (pop) by state and put the result in a field called population. Don't use a compound _id key (you don't need one)
                               </div>
                            </fieldset>
