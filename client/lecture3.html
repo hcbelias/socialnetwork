@@ -51,32 +51,28 @@
                               Everything in Mongoose starts with a Schema. Each schema maps to a MongoDB collection and defines the shape of the documents within that collection.
                            </p>
                            <code>
-                           var mongoose = require('mongoose');<br/>
-                           var Schema = mongoose.Schema;<br/>
-
-
-var mongoose = require('mongoose');<br/>
-
-mongoose.connect(config.mongo.uri, config.mongo.options);<br/>
+                             var mongoose = require('mongoose');<br/>
+                             var Schema = mongoose.Schema;<br/>
+                             mongoose.connect(config.mongo.uri, config.mongo.options);<br/>
                            <br/>
                            var UserSchema = new Schema({<br/>
-                         &nbsp;&nbsp;  name: String,<br/>
+                         &nbsp;  name: String,<br/>
   &nbsp;&nbsp;email: { type: String, lowercase: true }, // _id: { type: String, lowercase: true } <br/> 
   &nbsp;&nbsp;role: {<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;type: String,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;default: 'user'<br/>
   &nbsp;&nbsp;},<br/>
-  &nbsp;&nbsp;password: String,<br/>
+  &nbsp;&nbsp;password: String<br/>
                            });<br/>
                            <br/>
                            // a setter <br/>
-UserSchema.path('title').set(function (v) { <br/>
+UserSchema.path('email').set(function (v) { <br/>
   &nbsp;&nbsp;return capitalize(v); <br/>
 }); <br/>
  <br/>
 // middleware <br/>
 UserSchema.pre('save', function (next) { <br/>
-  &nbsp;&nbsp;notify(this.get('àuthor')); <br/>
+  &nbsp;&nbsp;notify(this.get('author')); <br/>
   &nbsp;&nbsp;next(); <br/>
 }); <br/>
           <br/>
@@ -86,7 +82,7 @@ UserSchema.pre('save', function (next) { <br/>
                            var User = mongoose.model('User', UserSchema);<br/> 
                            var user = new User({ email: 'mongoose@avenuecode.com', name: 'Mongoose'});<br/>
                            // console.log(user.email) - mongoose@avenuecode.com<br/>
-                           // console.log(user.name) - MongooseC
+                           // console.log(user.name) - Mongoose
                            </code>
                            <ul>
                             <li> <p>Validation</p>
@@ -128,7 +124,7 @@ UserSchema <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        if(self.id === user.id) return respond(true); <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return respond(false); <br/>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;  respond(true); <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;  return respond(true); <br/>
     &nbsp;&nbsp;&nbsp;&nbsp;}); <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}, 'The specified email address is already in use.'); <br/>
 
@@ -166,7 +162,7 @@ clapton.save(function (err) {<br/>
  <br/>
  User.findById(id, function(error, data){  ... }); <br/>
 <br/>
- User.find({}}, function(error, data){  ... }); <br/>
+ User.find({}, function(error, data){  ... }); <br/>
 <br/>
   User.findOneAndUpdate({ '_id': userData._id, 'password': userData.oldPassword },<br/>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                { $set: { password: userData.newPassword } },<br/>
@@ -243,9 +239,6 @@ personSchema.virtual('name.full').set(function (name) {<br/>
                             <li> this.getUser = function(id, successCB, failCB)){ ... } </li>
                             <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
                             <li> this.searchUsersByName = function(query, successCB, failCB){ ... } </li>
-                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
-                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
-                            <li> this.listAllUsers = function(successCB, failCB){ ... } </li>
                             <li> this.getUserByEmailAndPassword = function(userData, successCB, failCB) { ... }</li>
                             <li> this.changePassword = function(userData, successCB, failCB) { ... }</li>
                             <li> this.createUser = function(userData, successCB, failCB){ ... }</li>
@@ -267,7 +260,7 @@ personSchema.virtual('name.full').set(function (name) {<br/>
                             <li> this.updateFriendshipBlockStatus = function(userId, friendId, block, successCB, failCB){ ... } </li>
                             <li> this.updateFriendshipVipStatus = function(userId, friendId, vip,successCB, failCB){ ... } </li>
                             <li> this.updateFriendship = function(userId, friendId, status, successCB, failCB){ ... }</li>
-                            <li>  this.createFriendship = function(userId, friendId, successCB, failCB) { ... }</li>
+                            <li> this.createFriendship = function(userId, friendId, successCB, failCB) { ... }</li>
                           </ul>
                           </li>
                          </ul>
